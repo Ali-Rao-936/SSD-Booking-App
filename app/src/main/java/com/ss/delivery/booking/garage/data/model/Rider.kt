@@ -5,10 +5,18 @@ data class TimeModel(
     val value: String? = null,
     val slots: ArrayList<TimeSlot>? = null
 )
+ class TimeModels(
+    val name: String,
+    val value: String,
+    val slots: ArrayList<TimeSlot>
+    ) {
+
+    constructor() : this("", "", ArrayList<TimeSlot>())
+}
 
 data class TimeSlot(
-    val name: String,
-    val status: Boolean
+    val name: String? = null,
+    val status: Boolean? = null
 )
 
 data class TimeData(

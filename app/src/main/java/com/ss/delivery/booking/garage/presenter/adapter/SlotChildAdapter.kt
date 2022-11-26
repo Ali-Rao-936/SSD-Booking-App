@@ -31,7 +31,7 @@ class SlotChildAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txtTitle.text = arrayList[position].name
-        holder.cbSLot.isChecked = arrayList[position].status
+        holder.cbSLot.isChecked = arrayList[position].status!!
 
         holder.cbSLot.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked)

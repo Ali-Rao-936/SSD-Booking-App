@@ -13,9 +13,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.ss.delivery.booking.garage.R
 import com.ss.delivery.booking.garage.data.model.TimeModel
+import com.ss.delivery.booking.garage.data.model.TimeModels
 import com.ss.delivery.booking.garage.data.model.TimeSlot
 import com.ss.delivery.booking.garage.databinding.ActivityHomeBinding
+import com.ss.delivery.booking.garage.presenter.adapter.HomeTimeAdapter
+import com.ss.delivery.booking.garage.presenter.adapter.OnCheckBoxClick
 import com.ss.delivery.booking.garage.utils.Utils.getDateToday
+import com.ss.delivery.booking.garage.utils.Utils.showSnack
+import java.sql.Time
 
 class HomeActivity : AppCompatActivity() {
 
@@ -38,18 +43,48 @@ class HomeActivity : AppCompatActivity() {
                     timeList.clear()
 
                     list.onEach {
-                        val k = it.get("slots") as ArrayList<TimeSlot>
+                        val k = it.get("slots") as ArrayList<HashMap<String,Any>>
+                        val timeSlots = ArrayList<TimeSlot>()
+                        k.onEach {
+                            var slot : TimeSlot? = null
+                            var name = "12"
+                            var status = false
+                            it.onEach {
+                                it
+                                println(it.value)
+                                val a = it.value
+                               when(a::class.simpleName){
+                                   "Boolean" -> {
+                                       status = a as Boolean
+                                   }
+                                   "String" -> {
+                                       name = a as String
+                                   }
+                                   else -> { // Note the block
+                                       print("b is neither Float nor Double")
+                                   }
+                               }
+//                                val a = it.value as String
+//                                if (a == "false")
+//                                slot = TimeSlot(it.key, false)
+//                                else
+//                                slot = TimeSlot(it.key, true)
+
+                            }
+                            timeSlots.add(TimeSlot(name, status))
+
+                        }
                         timeList.add(
                             TimeModel(
                                 it.get("name") as String,
                                 it.get("value") as String,
-                                k
+                                timeSlots
                             )
                         )
                         println(it.get("name"))
                         println(it.get("value"))
                         // println(k)
-                        //  return
+                      //  println(timeList)
                     }
                     println(timeList)
 //
@@ -62,19 +97,19 @@ class HomeActivity : AppCompatActivity() {
 //                    }
 
 
-//                    if (timeList.isNotEmpty()) {
-//                        binding.rvHome.adapter =
-//                            HomeTimeAdapter(this@HomeActivity, timeList, object : OnCheckBoxClick {
-//                                override fun onCbClick(timePosition: Int, slotPosition: Int) {
-//                                    Log.d(
-//                                        "QOO",
-//                                        "  timePosition  $timePosition    slotPosition   $slotPosition "
-//                                    )
-//                                }
-//
-//                            })
-//                    }else
-//                        showSnack("no data found", binding.root)
+                    if (timeList.isNotEmpty()) {
+                        binding.rvHome.adapter =
+                            HomeTimeAdapter(this@HomeActivity, timeList, object : OnCheckBoxClick {
+                                override fun onCbClick(timePosition: Int, slotPosition: Int) {
+                                    Log.d(
+                                        "QOO",
+                                        "  timePosition  $timePosition    slotPosition   $slotPosition "
+                                    )
+                                }
+
+                            })
+                    }else
+                        showSnack("no data found", binding.root)
 
                 } else {
                     setupDataBase()
