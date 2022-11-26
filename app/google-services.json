@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "313584876651",
+    "project_id": "ssd-booking-app",
+    "storage_bucket": "ssd-booking-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313584876651:android:8298da2659effe185d452e",
+        "android_client_info": {
+          "package_name": "com.ss.delivery.booking.garage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313584876651-ts2tn8q5tr3jdj5ja8pun1ao35jsem45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA72gtjjuVTN1ObQ3GsJ_fYIOLIxlJpkh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313584876651-ts2tn8q5tr3jdj5ja8pun1ao35jsem45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SS Delivery Booking App</string>
+    <string name="if_you_don_t_have_account_already">If you don\'t have account already</string>
+    <string name="signup">SignUp</string>
+    <string name="id">ID</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="this_is_an_image">this is an image</string>
+</resources>
