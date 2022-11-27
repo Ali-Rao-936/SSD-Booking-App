@@ -38,64 +38,24 @@ class HomeActivity : AppCompatActivity() {
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val list: ArrayList<HashMap<String, TimeModel>> =
-                        snapshot.value as ArrayList<HashMap<String, TimeModel>>
+
                     timeList.clear()
-
-                    list.onEach {
-                        val k = it.get("slots") as ArrayList<HashMap<String,Any>>
-                        val timeSlots = ArrayList<TimeSlot>()
-                        k.onEach {
-                            var slot : TimeSlot? = null
-                            var name = "12"
-                            var status = false
-                            it.onEach {
-                                it
-                                println(it.value)
-                                val a = it.value
-                               when(a::class.simpleName){
-                                   "Boolean" -> {
-                                       status = a as Boolean
-                                   }
-                                   "String" -> {
-                                       name = a as String
-                                   }
-                                   else -> { // Note the block
-                                       print("b is neither Float nor Double")
-                                   }
-                               }
-//                                val a = it.value as String
-//                                if (a == "false")
-//                                slot = TimeSlot(it.key, false)
-//                                else
-//                                slot = TimeSlot(it.key, true)
-
+                    val pieceOfShit =
+                        (snapshot.value as ArrayList<*>).filterIsInstance<HashMap<String, *>>()
+                            .map {
+                                val slots =
+                                    (it.get("slots") as? ArrayList<*>)?.filterIsInstance<HashMap<String, *>>()
+                                        ?.map { timeSlot ->
+                                            val name = timeSlot.get("name") as? String
+                                            val status = timeSlot.get("status") as? Boolean
+                                            TimeSlot(name, status)
+                                        }
+                                val name = it.get("name") as? String
+                                val value = it.get("value") as? String
+                                TimeModel(name, value, slots)
                             }
-                            timeSlots.add(TimeSlot(name, status))
 
-                        }
-                        timeList.add(
-                            TimeModel(
-                                it.get("name") as String,
-                                it.get("value") as String,
-                                timeSlots
-                            )
-                        )
-                        println(it.get("name"))
-                        println(it.get("value"))
-                        // println(k)
-                      //  println(timeList)
-                    }
-                    println(timeList)
-//
-//                    list.forEachIndexed { index, hashMap ->
-//                     val bb =  hashMap.get("name")
-//                     val c =  hashMap.get("value")
-//                     val dd =  hashMap.get("slots")
-//                     val ff =  hashMap.get("0")
-//
-//                    }
-
+                    timeList.addAll(pieceOfShit)
 
                     if (timeList.isNotEmpty()) {
                         binding.rvHome.adapter =
@@ -108,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
                                 }
 
                             })
-                    }else
+                    } else
                         showSnack("no data found", binding.root)
 
                 } else {

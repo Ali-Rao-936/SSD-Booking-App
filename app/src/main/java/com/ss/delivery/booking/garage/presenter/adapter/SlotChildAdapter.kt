@@ -12,7 +12,7 @@ import com.ss.delivery.booking.garage.data.model.TimeSlot
 
 class SlotChildAdapter(
     private val context: Context,
-    private val arrayList: ArrayList<TimeSlot>,
+    private val arrayList: List<TimeSlot>,
     private var onClick: OnCheckBoxClick,
     private val mPosition: Int
 ) :

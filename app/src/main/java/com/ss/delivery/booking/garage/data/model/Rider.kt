@@ -3,7 +3,7 @@ package com.ss.delivery.booking.garage.data.model
 data class TimeModel(
     val name: String? = null,
     val value: String? = null,
-    val slots: ArrayList<TimeSlot>? = null
+    val slots: List<TimeSlot>? = null
 )
  class TimeModels(
     val name: String,
