@@ -1,6 +1,7 @@
 package com.ss.delivery.booking.garage.presenter.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,13 @@ class SlotChildAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtTitle: TextView = itemView.findViewById(R.id.txtSlotName)
         val cbSLot: CheckBox = itemView.findViewById(R.id.cbSlot)
+
+        init {
+            cbSLot.setOnClickListener {
+                Log.d("QOO", " select false is set again and again  ")
+                onClick.onCbClick(mPosition, adapterPosition, cbSLot.isChecked)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,12 +41,7 @@ class SlotChildAdapter(
         holder.txtTitle.text = arrayList[position].name
         holder.cbSLot.isChecked = arrayList[position].status!!
 
-        holder.cbSLot.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (!isChecked)
-                onClick.onCbClick(mPosition, position)
-            else
-                holder.cbSLot.isEnabled = false
-        }
+        holder.cbSLot.isEnabled = !arrayList[position].status!!
     }
 
     override fun getItemCount(): Int {
@@ -47,5 +50,5 @@ class SlotChildAdapter(
 }
 
 interface OnCheckBoxClick {
-    fun onCbClick(timePosition: Int, slotPosition: Int)
+    fun onCbClick(timePosition: Int, slotPosition: Int, isChecked: Boolean)
 }

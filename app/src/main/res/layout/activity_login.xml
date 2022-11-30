@@ -25,12 +25,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/etId"
+                android:id="@+id/etLicenseNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_bg"
                 android:fontFamily="@font/font_medium"
-                android:hint="@string/id"
+                android:hint="Driving License Number"
                 android:maxLines="1"
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/black" />

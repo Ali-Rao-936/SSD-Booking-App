@@ -2,6 +2,7 @@ package com.ss.delivery.booking.garage.presenter.home
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,33 +13,48 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.ss.delivery.booking.garage.R
+import com.ss.delivery.booking.garage.data.model.RiderLog
 import com.ss.delivery.booking.garage.data.model.TimeModel
-import com.ss.delivery.booking.garage.data.model.TimeModels
 import com.ss.delivery.booking.garage.data.model.TimeSlot
 import com.ss.delivery.booking.garage.databinding.ActivityHomeBinding
 import com.ss.delivery.booking.garage.presenter.adapter.HomeTimeAdapter
 import com.ss.delivery.booking.garage.presenter.adapter.OnCheckBoxClick
-import com.ss.delivery.booking.garage.utils.Utils.getDateToday
+import com.ss.delivery.booking.garage.utils.Constants
+import com.ss.delivery.booking.garage.utils.SharedPreferences
+import com.ss.delivery.booking.garage.utils.Utils.getCurrentMonth
+import com.ss.delivery.booking.garage.utils.Utils.getCurrentMonthName
+import com.ss.delivery.booking.garage.utils.Utils.getCurrentYear
+import com.ss.delivery.booking.garage.utils.Utils.getMonthDaysCount
 import com.ss.delivery.booking.garage.utils.Utils.showSnack
-import java.sql.Time
 
 class HomeActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityHomeBinding
     var timeList = ArrayList<TimeModel>()
     lateinit var myRef: DatabaseReference
+    private var selectedCount = 0
+    private var timesPosition = 0
+    private var slotsPosition = 0
+    private var selectDate = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+
+        selectDate = intent.extras!!.getString(Constants.SelectDate)!!
+
         val database = Firebase.database
-        myRef = database.getReference("UpdatedTimeSlotTable").child(getDateToday())
+        myRef =
+            database.getReference("${getCurrentMonthName()}-${getCurrentYear()}").child(selectDate)
         binding.rvHome.layoutManager = LinearLayoutManager(this)
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-
+                    Log.d(
+                        "QOO",
+                        " ........get data........ ${getCurrentMonth() + 1}        ${getMonthDaysCount()}"
+                    )
                     timeList.clear()
                     val pieceOfShit =
                         (snapshot.value as ArrayList<*>).filterIsInstance<HashMap<String, *>>()
@@ -60,11 +76,26 @@ class HomeActivity : AppCompatActivity() {
                     if (timeList.isNotEmpty()) {
                         binding.rvHome.adapter =
                             HomeTimeAdapter(this@HomeActivity, timeList, object : OnCheckBoxClick {
-                                override fun onCbClick(timePosition: Int, slotPosition: Int) {
+                                override fun onCbClick(
+                                    timePosition: Int,
+                                    slotPosition: Int,
+                                    isChecked: Boolean
+                                ) {
                                     Log.d(
                                         "QOO",
                                         "  timePosition  $timePosition    slotPosition   $slotPosition "
                                     )
+                                    if (selectedCount == 0) {
+                                        binding.rlButton.visibility = View.VISIBLE
+                                        timesPosition = timePosition
+                                        slotsPosition = slotPosition
+                                        if (isChecked)
+                                            selectedCount = 1
+                                        else
+                                            selectedCount = 0
+                                    } else {
+                                        showSnack("You can not select more than one", binding.root)
+                                    }
                                 }
 
                             })
@@ -81,6 +112,43 @@ class HomeActivity : AppCompatActivity() {
             }
 
         })
+
+        binding.btnBook.setOnClickListener {
+            timeList[timesPosition].slots?.get(slotsPosition)?.status = true
+            myRef.setValue(timeList).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    binding.rlButton.visibility = View.GONE
+                    Firebase.database.getReference(Constants.BookingLogTable).child(
+                        SharedPreferences.getStringValueFromPreference(
+                            Constants.DrivingLicense,
+                            "ad",
+                            this
+                        ) ?: ""
+                    )
+                        .setValue(
+                            RiderLog(
+                                SharedPreferences.getStringValueFromPreference(
+                                    Constants.RiderName,
+                                    "",
+                                    this
+                                ) ?: "",
+                                SharedPreferences.getStringValueFromPreference(
+                                    Constants.DrivingLicense,
+                                    "ad",
+                                    this
+                                ) ?: "",
+                                timeList[timesPosition].value!!,
+                                timeList[timesPosition].slots?.get(slotsPosition)?.name ?: "",
+                                "booked appointment"
+                            )
+                        )
+                    showSnack("Your Booking is confirmed", binding.root)
+                } else {
+                    Log.d("QOO", "${it.exception?.message}")
+                    showSnack("Something goes wrong, Please try again", binding.root)
+                }
+            }
+        }
 
 
     }
@@ -117,7 +185,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getSlots(): ArrayList<TimeSlot> {
-
         val list = ArrayList<TimeSlot>()
         list.add(TimeSlot("Slot 1", false))
         list.add(TimeSlot("Slot 2", true))
