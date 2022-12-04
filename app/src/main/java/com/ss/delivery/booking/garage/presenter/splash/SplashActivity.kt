@@ -21,11 +21,13 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         lifecycleScope.launch {
-            delay(3000L)
+            delay(4000L)
             if (SharedPreferences.getBooleanValueFromPreference(Constants.LoginStatus, this@SplashActivity))
                 startActivity(Intent(this@SplashActivity, SelectDateActivity::class.java))
             else
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+
+            finish()
         }
 
     }

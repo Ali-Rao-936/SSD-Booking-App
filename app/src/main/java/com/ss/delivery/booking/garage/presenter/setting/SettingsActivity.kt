@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
 
         binding.btnLogout.setOnClickListener {
-            SharedPreferences.saveBooleanToPreferences(Constants.LoginStatus, true, this)
+            SharedPreferences.saveBooleanToPreferences(Constants.LoginStatus, false, this)
             SharedPreferences.saveStringToPreferences(Constants.RiderName, "", this)
             SharedPreferences.saveStringToPreferences(Constants.DrivingLicense, "", this)
 
