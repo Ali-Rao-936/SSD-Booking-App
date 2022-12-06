@@ -6,4 +6,9 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="this_is_an_image">this is an image</string>
+    <string name="create">Choose:</string>
+    <string name="go_to_camera">Go To Camera</string>
+    <string name="go_to_gallery">Go To Gallery</string>
+    <string name="something_went_wrong">Something goes went wrong</string>
+    <string name="bike_plate_no">Bike Plate No</string>
 </resources>

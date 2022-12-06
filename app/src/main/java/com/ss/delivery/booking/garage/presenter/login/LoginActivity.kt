@@ -39,18 +39,20 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             if (binding.etLicenseNo.text.trim().toString().isEmpty())
-                Utils.showSnack("Please enter Driving License number ", binding.root)
+                Utils.showSnack("Please Enter Driving License number ", binding.root)
             else if (binding.etPassword.text.trim().toString().isEmpty())
-                Utils.showSnack("Please enter Password", binding.root)
+                Utils.showSnack("Please Enter Password", binding.root)
             else {
 
-                myRef.child(binding.etLicenseNo.text.trim().toString())
+                myRef.child("a-"+binding.etLicenseNo.text.trim().toString())
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             if (snapshot.exists()) {
                                 val data = (snapshot.value as HashMap<String, *>)
                                 if (data["password"] == binding.etPassword.text.trim().toString()) {
                                    SharedPreferences.saveStringToPreferences(Constants.RiderName, data["full_Name"].toString(), this@LoginActivity)
+                                   SharedPreferences.saveStringToPreferences(Constants.PlateNumber, data["plate_Number"].toString(), this@LoginActivity)
+                                   SharedPreferences.saveStringToPreferences(Constants.PhoneNumber, data["mobile_Number"].toString(), this@LoginActivity)
                                    SharedPreferences.saveStringToPreferences(Constants.DrivingLicense,binding.etLicenseNo.text.trim().toString() , this@LoginActivity)
                                     SharedPreferences.saveBooleanToPreferences(Constants.LoginStatus, true, this@LoginActivity)
                                     startActivity(

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presenter.settings.ProfileActivity">
+
+        <RelativeLayout
+            android:id="@+id/rlTopProfile"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivBackProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/this_is_an_image"
+                android:padding="10dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/font_bold"
+                android:text="Profile"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/man"
+            app:civ_border_color="@color/primaryColor"
+            app:civ_border_width="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rlTopProfile" />
+
+        <ImageView
+            android:id="@+id/ivEditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-25dp"
+            android:contentDescription="@string/this_is_an_image"
+            android:padding="7dp"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:layout_constraintBottom_toBottomOf="@id/profileImageView"
+            app:layout_constraintStart_toEndOf="@id/profileImageView" />
+
+
+        <ImageView
+            android:id="@+id/playerIcon"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/this_is_an_image"
+            android:src="@drawable/record_button"
+            app:layout_constraintBottom_toBottomOf="@id/playerName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playerName" />
+
+        <TextView
+            android:id="@+id/playerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/font_semibold"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/playerIcon"
+            app:layout_constraintTop_toBottomOf="@id/profileImageView" />
+
+        <ImageView
+            android:id="@+id/logoIcon"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/this_is_an_image"
+            android:src="@drawable/record_button"
+            app:layout_constraintBottom_toBottomOf="@id/txtDrivingLicenseNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/positionId" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="-30dp"
+            android:fontFamily="@font/font_regular"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/playerIcon"
+            app:layout_constraintTop_toBottomOf="@id/playerName"
+            tools:text="Ali Gul" />
+
+        <TextView
+            android:id="@+id/positionId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/font_semibold"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:text="Driving License Number"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/logoIcon"
+            app:layout_constraintTop_toBottomOf="@id/playerName" />
+
+        <TextView
+            android:id="@+id/txtDrivingLicenseNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="-30dp"
+            android:fontFamily="@font/font_regular"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/logoIcon"
+            app:layout_constraintTop_toBottomOf="@id/positionId"
+            tools:text="121c34by7jh" />
+
+        <ImageView
+            android:id="@+id/birthdayIcon"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/this_is_an_image"
+            android:src="@drawable/record_button"
+            app:layout_constraintBottom_toBottomOf="@id/txtPhoneNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playerBirthday" />
+
+        <TextView
+            android:id="@+id/playerBirthday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/font_semibold"
+            android:text="Phone"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/birthdayIcon"
+            app:layout_constraintTop_toBottomOf="@id/txtDrivingLicenseNumber" />
+
+        <TextView
+            android:id="@+id/txtPhoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="-30dp"
+            android:fontFamily="@font/font_regular"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/birthdayIcon"
+            app:layout_constraintTop_toBottomOf="@id/playerBirthday"
+            tools:text="38 years old" />
+
+
+        <ImageView
+            android:id="@+id/addressIcon"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/this_is_an_image"
+            android:src="@drawable/record_button"
+            app:layout_constraintBottom_toBottomOf="@id/txtPlateNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playerCountry" />
+
+        <TextView
+            android:id="@+id/playerCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/font_semibold"
+            android:text="@string/bike_plate_no"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/addressIcon"
+            app:layout_constraintTop_toBottomOf="@id/txtPhoneNumber" />
+
+        <TextView
+            android:id="@+id/txtPlateNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="-30dp"
+            android:fontFamily="@font/font_regular"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/addressIcon"
+            app:layout_constraintTop_toBottomOf="@id/playerCountry"
+            tools:text="Dubai" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ss.delivery.booking.garage.R
 import com.ss.delivery.booking.garage.data.model.TimeSlot
+import com.ss.delivery.booking.garage.utils.Utils.lastMainSelectedPosition
+import com.ss.delivery.booking.garage.utils.Utils.lastSelectedPosition
 
 class SlotChildAdapter(
     private val context: Context,
@@ -26,7 +28,7 @@ class SlotChildAdapter(
         init {
             cbSLot.setOnClickListener {
                 Log.d("QOO", " select false is set again and again  ")
-                onClick.onCbClick(mPosition, adapterPosition, cbSLot.isChecked)
+              onClick.onCbClick(mPosition, adapterPosition, cbSLot.isChecked)
             }
         }
     }
@@ -40,8 +42,12 @@ class SlotChildAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txtTitle.text = arrayList[position].name
         holder.cbSLot.isChecked = arrayList[position].status!!
-
         holder.cbSLot.isEnabled = !arrayList[position].status!!
+
+        if (lastMainSelectedPosition == mPosition && lastSelectedPosition == position) {
+            Log.d("QOO", " positioned are matched")
+            holder.cbSLot.isChecked = true
+            }
     }
 
     override fun getItemCount(): Int {

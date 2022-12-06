@@ -32,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/font_bold"
@@ -64,20 +63,24 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="50dp">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        app:civ_border_width="1dp"
+                        app:civ_border_color="@color/primaryColor"
+                        android:id="@+id/ivProfile"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:contentDescription="@string/this_is_an_image"
                         android:src="@drawable/man" />
 
                     <ImageView
-                        android:padding="7dp"
+                        android:id="@+id/ivEditProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/this_is_an_image"
-                        android:src="@drawable/ic_baseline_edit_24"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true" />
+                        android:contentDescription="@string/this_is_an_image"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_baseline_edit_24" />
 
                 </RelativeLayout>
 
@@ -124,7 +127,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="Bike Plate No"
+                    android:hint="@string/bike_plate_no"
                     android:inputType="number"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"

@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presenter.home.HomeActivity">
+        tools:context=".presenter.home.EngineWorkActivity">
 
         <RelativeLayout
             android:id="@+id/rlTopHome"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/font_regular"
-            android:text="You can  choose  only  one  Slot  in whole day."
+            android:text="Please  choose  only  one  Slot  per  day."
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rlTopHome" />

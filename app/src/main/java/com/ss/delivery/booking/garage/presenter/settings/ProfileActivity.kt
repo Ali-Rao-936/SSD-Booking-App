@@ -1,10 +1,11 @@
-package com.ss.delivery.booking.garage.presenter.login
+package com.ss.delivery.booking.garage.presenter.settings
 
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,69 +14,48 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.ss.delivery.booking.garage.R
-import com.ss.delivery.booking.garage.data.model.Rider
-import com.ss.delivery.booking.garage.databinding.ActivitySignUpBinding
-import com.ss.delivery.booking.garage.utils.ImageChooseSheet
-import com.ss.delivery.booking.garage.utils.SharedPreferences
-import com.ss.delivery.booking.garage.utils.Utils.showSnack
+import com.ss.delivery.booking.garage.databinding.ActivityProfileBinding
+import com.ss.delivery.booking.garage.utils.*
 import java.io.ByteArrayOutputStream
 
-class SignUpActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivitySignUpBinding
-    lateinit var myRef: DatabaseReference
+class ProfileActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityProfileBinding
     private val REQUEST_IMAGE_CAPTURE = 1
     val SELECT_FILE = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
 
-        binding.ivBackSignUp.setOnClickListener {
+        binding.ivBackProfile.setOnClickListener {
             onBackPressed()
         }
 
+        val encodedImage = SharedPreferences.getStringValueFromPreference("image", "", this)
+        val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
+        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+
+        Glide.with(this).load(decodedByte)
+            .error(R.drawable.man).into(binding.profileImageView)
+
+        binding.txtName.text =
+            SharedPreferences.getStringValueFromPreference(Constants.RiderName, "", this)
+        binding.txtDrivingLicenseNumber.text =
+            SharedPreferences.getStringValueFromPreference(Constants.DrivingLicense, "", this)
+        binding.txtPhoneNumber.text =
+            SharedPreferences.getStringValueFromPreference(Constants.PhoneNumber, "", this)
+        binding.txtPlateNumber.text =
+            SharedPreferences.getStringValueFromPreference(Constants.PlateNumber, "", this)
+
+
         binding.ivEditProfile.setOnClickListener {
-            val modalBottomSheet = ImageChooseSheet(this@SignUpActivity)
-            modalBottomSheet.show(supportFragmentManager, ImageChooseSheet.TAG)
+            val modalBottomSheet = EditImageChooseSheet(this@ProfileActivity)
+            modalBottomSheet.show(supportFragmentManager, EditImageChooseSheet.TAG)
         }
 
-        myRef = Firebase.database.getReference("RidersInfo")
-
-        binding.btnSignUp.setOnClickListener {
-            if (binding.etName.text.trim().toString().isEmpty())
-                showSnack("PLease enter Name", binding.root)
-            else if (binding.etPlateNo.text.trim().toString().isEmpty())
-                showSnack("PLease enter Bike plate number", binding.root)
-            else if (binding.etLicenseNo.text.trim().toString().isEmpty())
-                showSnack("Please enter Driving License number", binding.root)
-            else if (binding.etMobileNo.text.trim().toString().isEmpty())
-                showSnack("Please enter Mobile number ", binding.root)
-            else if (binding.etPassword.text.trim().toString().isEmpty())
-                showSnack("Please enter Password", binding.root)
-            else {
-                val rider = Rider(
-                    binding.etName.text.trim().toString(),
-                    binding.etFatherN.text.trim().toString(),
-                    binding.etRiderId.text.trim().toString(),
-                    binding.etPlateNo.text.trim().toString(),
-                    binding.etLicenseNo.text.trim().toString(),
-                    binding.etMobileNo.text.trim().toString(),
-                    binding.etPassword.text.trim().toString()
-                )
-                myRef.child(binding.etLicenseNo.text.trim().toString()).setValue(rider)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful)
-                            showSnack("You are Successfully Registered.", binding.root)
-                        else
-                            showSnack("Something goes wrong please try again..", binding.root)
-                    }
-            }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,7 +63,7 @@ class SignUpActivity : AppCompatActivity() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             Glide.with(this).load(imageBitmap).placeholder(R.drawable.man)
-                .into(binding.ivProfile)
+                .into(binding.profileImageView)
 
             val baos = ByteArrayOutputStream()
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -96,7 +76,7 @@ class SignUpActivity : AppCompatActivity() {
                 MediaStore.Images.Media.getBitmap(this.contentResolver, data?.data)
 
             Glide.with(this).load(imageBitmap).placeholder(R.drawable.man)
-                .into(binding.ivProfile)
+                .into(binding.profileImageView)
 
             val baos = ByteArrayOutputStream()
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -121,7 +101,7 @@ class SignUpActivity : AppCompatActivity() {
             try {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             } catch (e: ActivityNotFoundException) {
-                showSnack(getString(R.string.something_went_wrong), binding.root)
+                Utils.showSnack(getString(R.string.something_went_wrong), binding.root)
             }
         }
     }

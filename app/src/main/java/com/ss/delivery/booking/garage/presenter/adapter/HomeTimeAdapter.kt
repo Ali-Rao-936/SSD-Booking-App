@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.ValueEventListener
 import com.ss.delivery.booking.garage.R
 import com.ss.delivery.booking.garage.data.model.TimeModel
 
 class HomeTimeAdapter(
-    private val context: Context, private val arrayList: ArrayList<TimeModel>,
+    private val context: Context, private var arrayList: ArrayList<TimeModel>,
     private var onClick: OnCheckBoxClick
 ) :
     RecyclerView.Adapter<HomeTimeAdapter.ViewHolder>() {
@@ -32,7 +34,7 @@ class HomeTimeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txtTime.text = arrayList[position].value
 
-        val childLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        val childLayoutManager = GridLayoutManager(context, 3)
 
         holder.rvSlots.apply {
             layoutManager = childLayoutManager
@@ -40,6 +42,11 @@ class HomeTimeAdapter(
                 arrayList[position].slots?.let { SlotChildAdapter(context, it, onClick, position) }
             setRecycledViewPool(viewPool)
         }
+    }
+
+    fun updateAdapter(arrayList: ArrayList<TimeModel>){
+        this.arrayList = arrayList
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

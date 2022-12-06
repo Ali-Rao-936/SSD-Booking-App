@@ -10,6 +10,8 @@ import kotlin.collections.ArrayList
 object Utils {
 
     val monthList =  arrayListOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+     var lastMainSelectedPosition = -1
+     var lastSelectedPosition = -1
 
     fun getDateToday(): String {
         val calendar = Calendar.getInstance()
