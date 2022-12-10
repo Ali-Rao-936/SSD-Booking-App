@@ -1,5 +1,6 @@
 package com.ss.delivery.booking.garage.presenter.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,6 +26,7 @@ import com.ss.delivery.booking.garage.utils.Utils
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentMonth
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentMonthName
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentYear
+import com.ss.delivery.booking.garage.utils.Utils.getDateToday
 import com.ss.delivery.booking.garage.utils.Utils.getMonthDaysCount
 import com.ss.delivery.booking.garage.utils.Utils.showSnack
 
@@ -33,8 +35,7 @@ class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
     var timeList = ArrayList<TimeModel>()
     lateinit var myRef: DatabaseReference
-    lateinit var adapter : HomeTimeAdapter
-    private var selectedCount = 0
+    lateinit var adapter: HomeTimeAdapter
     private var timesPosition = 0
     private var slotsPosition = 0
     private var selectDate = ""
@@ -47,14 +48,15 @@ class HomeActivity : AppCompatActivity() {
 
         val database = Firebase.database
         myRef =
-            database.getReference("${getCurrentMonthName()}-${getCurrentYear()}").child("Other Services").child(selectDate)
+            database.getReference("${getCurrentMonthName()}-${getCurrentYear()}")
+                .child("Other Services").child(selectDate)
         binding.rvHome.layoutManager = LinearLayoutManager(this)
 
         binding.ivBackHome.setOnClickListener {
             onBackPressed()
         }
 
-        myRef.addValueEventListener(object : ValueEventListener, OnCheckBoxClick {
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener, OnCheckBoxClick {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     Log.d(
@@ -80,15 +82,15 @@ class HomeActivity : AppCompatActivity() {
                     timeList.addAll(pieceOfShit)
 
                     if (timeList.isNotEmpty()) {
-                         adapter =
+                        adapter =
                             HomeTimeAdapter(this@HomeActivity, timeList, this)
                         binding.rvHome.adapter = adapter
 
                     } else
-                        showSnack("no data found", binding.root)
+                        showSnack(getString(R.string.no_record), binding.root)
 
                 } else {
-
+                    showSnack(getString(R.string.no_record), binding.root)
                 }
             }
 
@@ -98,74 +100,123 @@ class HomeActivity : AppCompatActivity() {
 
             override fun onCbClick(timePosition: Int, slotPosition: Int, isChecked: Boolean) {
 
-                        Log.d(
-                            "QOO",
-                            "  timePosition  $timePosition    slotPosition   $slotPosition "
-                        )
+                Log.d(
+                    "QOO",
+                    "  timePosition  $timePosition    slotPosition   $slotPosition "
+                )
 
-                        if (isChecked) {
-                            binding.rlButton.visibility = View.VISIBLE
-                            if (Utils.lastMainSelectedPosition == -1 && Utils.lastSelectedPosition == -1) {
-                                // first time
-                                Utils.lastMainSelectedPosition = timePosition
-                                Utils.lastSelectedPosition = slotPosition
-                            } else {
-                                Utils.lastMainSelectedPosition = timePosition
-                                Utils.lastSelectedPosition = slotPosition
-                           //     timeList[timesPosition].slots?.get(slotsPosition)?.status = true
-                                adapter.updateAdapter(timeList)
-                            }
-                        }else{
-                            Utils.lastMainSelectedPosition = -1
-                            Utils.lastSelectedPosition = -1
-                            binding.rlButton.visibility = View.GONE
-                        }
+                if (isChecked) {
+                    binding.rlButton.visibility = View.VISIBLE
+                    timesPosition = timePosition
+                    slotsPosition = slotPosition
+                    if (Utils.lastMainSelectedPosition == -1 && Utils.lastSelectedPosition == -1) {
+                        // first time
+                        Utils.lastMainSelectedPosition = timePosition
+                        Utils.lastSelectedPosition = slotPosition
+                    } else {
+                        Utils.lastMainSelectedPosition = timePosition
+                        Utils.lastSelectedPosition = slotPosition
+                        //     timeList[timesPosition].slots?.get(slotsPosition)?.status = true
+                        adapter.updateAdapter(timeList)
+                    }
+                } else {
+                    Utils.lastMainSelectedPosition = -1
+                    Utils.lastSelectedPosition = -1
+                    binding.rlButton.visibility = View.GONE
+                }
             }
 
         })
 
         binding.btnBook.setOnClickListener {
-            timeList[timesPosition].slots?.get(slotsPosition)?.status = true
-            myRef.setValue(timeList).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    binding.rlButton.visibility = View.GONE
-                    Firebase.database.getReference(Constants.BookingLogTable).child(
-                        SharedPreferences.getStringValueFromPreference(
-                            Constants.DrivingLicense,
-                            "ad",
-                            this
-                        ) ?: ""
-                    )
-                        .setValue(
-                            RiderLog(
-                                SharedPreferences.getStringValueFromPreference(
-                                    Constants.RiderName,
-                                    "",
-                                    this
-                                ) ?: "",
+            //   timeList[timesPosition].slots?.get(slotsPosition)?.status = true
+            Log.d("QOO", " status   $timesPosition   $slotsPosition")
+//            val date =
+//                SharedPreferences.getStringValueFromPreference(Constants.BookingDate, "no", this)
+//            if (date == getDateToday()) {
+//                showSnack(
+//                    "You already booked for today. You can only book one appointment in a day",
+//                    binding.root
+//                )
+//            } else {
+                myRef.child("$timesPosition").child("slots").child("$slotsPosition")
+                    .child("status").setValue(true).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val bookingId = "${
                                 SharedPreferences.getStringValueFromPreference(
                                     Constants.DrivingLicense,
-                                    "ad",
-                                    this
-                                ) ?: "",
-                                timeList[timesPosition].value!!,
-                                timeList[timesPosition].slots?.get(slotsPosition)?.name ?: "",
-                                "booked appointment"
+                                    "", this
+                                )
+                            }-${getCurrentMonth() + 1}-${getCurrentYear()}"
+                            binding.rlButton.visibility = View.GONE
+                            Log.d(
+                                "QOO",
+                                " status ${timeList[timesPosition].slots?.get(slotsPosition)?.status}"
                             )
-                        )
-                    showSnack("Your Booking is confirmed", binding.root)
-                    Utils.lastMainSelectedPosition = -1
-                    Utils.lastSelectedPosition = -1
-                } else {
-                    Log.d("QOO", "${it.exception?.message}")
-                    showSnack("Something goes wrong, Please try again", binding.root)
-                }
-            }
+                            Firebase.database.getReference(Constants.BookingLogTable).child(
+                                bookingId
+                            )
+                                .setValue(
+                                    RiderLog(
+                                        SharedPreferences.getStringValueFromPreference(
+                                            Constants.RiderName,
+                                            "",
+                                            this
+                                        ) ?: "",
+                                        SharedPreferences.getStringValueFromPreference(
+                                            Constants.DrivingLicense,
+                                            "ad",
+                                            this
+                                        ) ?: "",
+                                        SharedPreferences.getStringValueFromPreference(
+                                            Constants.PlateNumber,
+                                            "ad",
+                                            this
+                                        ) ?: "",
+                                        SharedPreferences.getStringValueFromPreference(
+                                            Constants.PhoneNumber,
+                                            "ad",
+                                            this
+                                        ) ?: "",
+                                        timeList[timesPosition].value!!,
+                                        timeList[timesPosition].slots?.get(slotsPosition)?.name
+                                            ?: "",
+                                        "booked appointment", "reason", "bil", "KM"
+                                    )
+                                )
+                            Utils.lastMainSelectedPosition = -1
+                            Utils.lastSelectedPosition = -1
+                            SharedPreferences.saveStringToPreferences(
+                                Constants.BookingDate,
+                                getDateToday(),
+                                this
+                            )
+                            SharedPreferences.saveStringToPreferences(
+                                Constants.BookingID,
+                                bookingId,
+                                this
+                            )
+                            startActivity(
+                                Intent(this, BookingConfirmationActivity::class.java)
+                                    .putExtra("time", timeList[timesPosition].value)
+                                    .putExtra(
+                                        "slot",
+                                        timeList[timesPosition].slots?.get(slotsPosition)?.name
+                                    )
+                                    .putExtra("date", selectDate)
+                                    .putExtra("type", intent.extras!!.getString("type")!!)
+                            )
+
+                            finish()
+                        } else {
+                            Log.d("QOO", "${it.exception?.message}")
+                            showSnack(getString(R.string.something_went_wrong), binding.root)
+                        }
+                    }
+           // }
+
         }
-
-
     }
-
 
 
 }

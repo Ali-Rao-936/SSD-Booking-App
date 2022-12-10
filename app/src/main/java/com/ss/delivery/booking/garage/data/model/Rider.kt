@@ -20,9 +20,14 @@ data class TimeModel(
 data class RiderLog(
     val Full_Name: String,
     val License_Number: String,
+    val Plate_Number: String,
+    val Phone_Number: String,
     val Time: String,
     val Slot: String,
-    val Message: String
+    val Message: String,
+    val Reason: String,
+    val Bill: String,
+    val KM: String
 )
 
 data class TimeSlot(
@@ -35,3 +40,13 @@ data class TimeData(
     val value: TimeModel
 )
 
+
+data class BikeModel(
+    val Bike_Number: Long,
+    val Bike_Source: String,
+    val Bike_Color: String,
+    val Bike_Model: Long,
+    val Vehicle_Chassis: String,
+    val Vehicle_Engine: String,
+    val Vehicle_Model: String
+)

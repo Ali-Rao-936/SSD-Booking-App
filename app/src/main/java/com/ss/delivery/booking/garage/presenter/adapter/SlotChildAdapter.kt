@@ -17,7 +17,7 @@ class SlotChildAdapter(
     private val context: Context,
     private val arrayList: List<TimeSlot>,
     private var onClick: OnCheckBoxClick,
-    private val mPosition: Int
+    private val mPosition: View
 ) :
     RecyclerView.Adapter<SlotChildAdapter.ViewHolder>() {
 
@@ -28,7 +28,7 @@ class SlotChildAdapter(
         init {
             cbSLot.setOnClickListener {
                 Log.d("QOO", " select false is set again and again  ")
-              onClick.onCbClick(mPosition, adapterPosition, cbSLot.isChecked)
+              onClick.onCbClick((mPosition.tag as Int), adapterPosition, cbSLot.isChecked)
             }
         }
     }
@@ -44,7 +44,7 @@ class SlotChildAdapter(
         holder.cbSLot.isChecked = arrayList[position].status!!
         holder.cbSLot.isEnabled = !arrayList[position].status!!
 
-        if (lastMainSelectedPosition == mPosition && lastSelectedPosition == position) {
+        if (lastMainSelectedPosition == (mPosition.tag as Int) && lastSelectedPosition == position) {
             Log.d("QOO", " positioned are matched")
             holder.cbSLot.isChecked = true
             }

@@ -38,7 +38,7 @@
         android:id="@+id/btnSelectDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SS Delivery Garage \n Booking App"
+        android:text="@string/splash_name"
         android:textColor="@color/primaryColor"
         android:textSize="20sp"
         android:fontFamily="@font/font_bold"

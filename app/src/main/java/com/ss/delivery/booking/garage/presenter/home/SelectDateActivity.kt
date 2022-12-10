@@ -58,7 +58,7 @@ class SelectDateActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                showSnack("error for data base of times ", binding.root)
+                showSnack(getString(R.string.no_record), binding.root)
                 Log.d("QOO", " error for data base of times  :  ${error.message}")
             }
 
@@ -71,12 +71,12 @@ class SelectDateActivity : AppCompatActivity() {
 
         // change engine oil
         binding.llOilChange.setOnClickListener {
-            showCalendar()
+            showCalendar("Engine Oil")
         }
 
         // other services
         binding.llOtherServices.setOnClickListener {
-            showCalendar()
+            showCalendar("Other Services")
         }
         // outdoor
         binding.llOutdoorServices.setOnClickListener {
@@ -129,11 +129,10 @@ class SelectDateActivity : AppCompatActivity() {
         val btnOk: AppCompatButton = dialog.findViewById(R.id.btnOk)
 
         if (s.isEmpty())
-            txtMessage.text =
-                "Please choose only Friday and Saturday. Seemab Sikander Delivery Garage is worked only these two days for Engine Work."
+            txtMessage.text = getString(R.string.engine_work_message)
+
         else
-            txtMessage.text =
-                "Please choose from Monday to Saturday. Seemab Sikander Delivery Garage is closed on Sunday."
+            txtMessage.text = getString(R.string.oil_work_message)
 
         btnOk.setOnClickListener {
             dialog.dismiss()
@@ -142,7 +141,7 @@ class SelectDateActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showCalendar() {
+    private fun showCalendar(type : String) {
         val calendar = Calendar.getInstance()
         calendar.set(getCurrentYear(), getCurrentMonth(), getCurrentDay())
         val min = calendar.timeInMillis
@@ -155,7 +154,7 @@ class SelectDateActivity : AppCompatActivity() {
             if (getCurrentDayOfWeek(dayOfMonth) == 1)
                 showInfoPopup("Sunday")
             else
-                goToHome("" + dayOfMonth + "-" + monthList[monthOfYear] + "-" + year)
+                goToHome("" + dayOfMonth + "-" + monthList[monthOfYear] + "-" + year, type)
 
         }, getCurrentYear(), getCurrentMonth(), getCurrentDay()).apply {
             datePicker.minDate = min
@@ -164,9 +163,9 @@ class SelectDateActivity : AppCompatActivity() {
         dpd.show()
     }
 
-    private fun goToHome(date: String) {
+    private fun goToHome(date: String, type: String) {
         Log.d("QOO", " date :  $date")
-        startActivity(Intent(this, HomeActivity::class.java).putExtra(Constants.SelectDate, date))
+        startActivity(Intent(this, HomeActivity::class.java).putExtra(Constants.SelectDate, date).putExtra("type", type))
     }
 
     private fun setUpDataBaseForMonth() {

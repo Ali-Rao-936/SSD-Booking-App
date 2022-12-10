@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.ss.delivery.booking.garage.R
+import com.ss.delivery.booking.garage.data.model.Rider
 import com.ss.delivery.booking.garage.databinding.ActivityLoginBinding
 import com.ss.delivery.booking.garage.presenter.home.SelectDateActivity
 import com.ss.delivery.booking.garage.utils.Constants
@@ -22,12 +23,14 @@ class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
     lateinit var myRef: DatabaseReference
+    var ridersList = ArrayList<Rider>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         myRef = Firebase.database.getReference(Constants.RiderTable)
+        getRecord()
 
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, SelectDateActivity::class.java))
@@ -39,21 +42,23 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             if (binding.etLicenseNo.text.trim().toString().isEmpty())
-                Utils.showSnack("Please Enter Driving License number ", binding.root)
+                Utils.showSnack(getString(R.string.please_enter_license), binding.root)
             else if (binding.etPassword.text.trim().toString().isEmpty())
-                Utils.showSnack("Please Enter Password", binding.root)
+                Utils.showSnack(getString(R.string.please_enter_password), binding.root)
             else {
 
-                myRef.child("a-"+binding.etLicenseNo.text.trim().toString())
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.exists()) {
-                                val data = (snapshot.value as HashMap<String, *>)
-                                if (data["password"] == binding.etPassword.text.trim().toString()) {
-                                   SharedPreferences.saveStringToPreferences(Constants.RiderName, data["full_Name"].toString(), this@LoginActivity)
-                                   SharedPreferences.saveStringToPreferences(Constants.PlateNumber, data["plate_Number"].toString(), this@LoginActivity)
-                                   SharedPreferences.saveStringToPreferences(Constants.PhoneNumber, data["mobile_Number"].toString(), this@LoginActivity)
-                                   SharedPreferences.saveStringToPreferences(Constants.DrivingLicense,binding.etLicenseNo.text.trim().toString() , this@LoginActivity)
+                val license : String = binding.etLicenseNo.text.trim().toString()
+                val pwd : String = binding.etPassword.text.trim().toString()
+
+                if (ridersList.isEmpty())
+                    Utils.showSnack(getString(R.string.no_record), binding.root)
+                else{
+                    for (item in ridersList){
+                        if (item.License_Number == license && item.Password == pwd){
+                            SharedPreferences.saveStringToPreferences(Constants.RiderName, item.Full_Name, this@LoginActivity)
+                                   SharedPreferences.saveStringToPreferences(Constants.PlateNumber, item.Plate_Number, this@LoginActivity)
+                                   SharedPreferences.saveStringToPreferences(Constants.PhoneNumber, item.Mobile_Number, this@LoginActivity)
+                                   SharedPreferences.saveStringToPreferences(Constants.DrivingLicense,item.License_Number , this@LoginActivity)
                                     SharedPreferences.saveBooleanToPreferences(Constants.LoginStatus, true, this@LoginActivity)
                                     startActivity(
                                         Intent(
@@ -61,20 +66,73 @@ class LoginActivity : AppCompatActivity() {
                                             SelectDateActivity::class.java
                                         )
                                     )
-                                }
-
-                            } else
-                                Utils.showSnack("No record found.", binding.root)
+                            finish()
+                            return@setOnClickListener
                         }
+                    }
+                    Utils.showSnack(getString(R.string.no_record), binding.root)
+                }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Utils.showSnack("Something went wrong. Please try again.", binding.root)
-                            Log.d("QOO", " ${error.message}")
-                        }
-
-                    })
+//                myRef.child(binding.etLicenseNo.text.trim().toString())
+//                    .addListenerForSingleValueEvent(object : ValueEventListener {
+//                        override fun onDataChange(snapshot: DataSnapshot) {
+//                            if (snapshot.exists()) {
+//                                val data = (snapshot.value as HashMap<String, *>)
+//                                if (data["password"] == binding.etPassword.text.trim().toString()) {
+//                                   SharedPreferences.saveStringToPreferences(Constants.RiderName, data["full_Name"].toString(), this@LoginActivity)
+//                                   SharedPreferences.saveStringToPreferences(Constants.PlateNumber, data["plate_Number"].toString(), this@LoginActivity)
+//                                   SharedPreferences.saveStringToPreferences(Constants.PhoneNumber, data["mobile_Number"].toString(), this@LoginActivity)
+//                                   SharedPreferences.saveStringToPreferences(Constants.DrivingLicense,binding.etLicenseNo.text.trim().toString() , this@LoginActivity)
+//                                    SharedPreferences.saveBooleanToPreferences(Constants.LoginStatus, true, this@LoginActivity)
+//                                    startActivity(
+//                                        Intent(
+//                                            this@LoginActivity,
+//                                            SelectDateActivity::class.java
+//                                        )
+//                                    )
+//                                }
+//
+//                            } else
+//                                Utils.showSnack(getString(R.string.no_record), binding.root)
+//                        }
+//
+//                        override fun onCancelled(error: DatabaseError) {
+//                            Utils.showSnack(getString(R.string.something_went_wrong), binding.root)
+//                            Log.d("QOO", " ${error.message}")
+//                        }
+//
+//                    })
             }
         }
 
+    }
+
+    fun getRecord(){
+        Firebase.database.getReference(Constants.RiderTable)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        ridersList.clear()
+                        val rider =
+                            (snapshot.value as ArrayList<*>).filterIsInstance<HashMap<String, *>>()
+                                .map {
+                                    Rider(it["full_Name"].toString(), it["father_Name"].toString(),it["rider_Id"].toString(),it["plate_Number"].toString(),
+                                        it["license_Number"].toString(), it["mobile_Number"].toString(),it["password"].toString())
+                                }
+                        ridersList.addAll(rider)
+                        Log.d(
+                            "QOO",
+                            " ........get data........ ${ridersList.size}"
+                        )
+                    } else {
+                        Log.d("QOO", "  no riders records found")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("QOO", "  Get riders records got cancelled  ${error.message}")
+                }
+
+            })
     }
 }

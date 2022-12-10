@@ -47,7 +47,7 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="-20dp"
             android:fontFamily="@font/font_bold"
-            android:text="Booking App"
+            android:text="@string/booking_app"
             android:textSize="20sp"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +105,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:fontFamily="@font/font_semibold"
-                            android:text="Oil Change"/>
+                            android:text="@string/oil_change"/>
 
                     </LinearLayout>
 
@@ -128,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:fontFamily="@font/font_semibold"
-                            android:text="Other Services"/>
+                            android:text="@string/other_services"/>
 
                     </LinearLayout>
 
@@ -161,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:fontFamily="@font/font_semibold"
-                            android:text="Engine Work"/>
+                            android:text="@string/engine_work"/>
 
                     </LinearLayout>
 
@@ -184,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:fontFamily="@font/font_semibold"
-                            android:text="Outdoor Services"/>
+                            android:text="@string/outdoor_services"/>
 
                     </LinearLayout>
 
@@ -201,7 +201,6 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:background="@color/primaryColor"
-            android:text="Select Date"
             android:textColor="@color/white"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

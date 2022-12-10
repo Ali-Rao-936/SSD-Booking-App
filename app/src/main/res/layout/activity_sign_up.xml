@@ -35,7 +35,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/font_bold"
-                android:text="Signup"
+                android:text="@string/signup"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -91,7 +91,7 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="Full Name"
+                    android:hint="@string/full_name"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/black" />
@@ -103,7 +103,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="Father Name"
+                    android:hint="@string/father_name"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/black" />
@@ -115,7 +115,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="Rider Id"
+                    android:hint="@string/rider_id"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/black" />
@@ -140,7 +140,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="License No"
+                    android:hint="@string/driving_license_number"
                     android:inputType="number"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"
@@ -153,7 +153,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="Mobile No"
+                    android:hint="@string/mobile_no"
                     android:inputType="phone"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"
@@ -166,7 +166,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/edit_text_bg"
                     android:fontFamily="@font/font_medium"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:paddingHorizontal="10dp"

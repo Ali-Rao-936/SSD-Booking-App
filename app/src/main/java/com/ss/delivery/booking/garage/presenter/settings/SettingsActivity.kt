@@ -15,8 +15,10 @@ import androidx.databinding.DataBindingUtil
 import com.ss.delivery.booking.garage.R
 import com.ss.delivery.booking.garage.databinding.ActivitySettingsBinding
 import com.ss.delivery.booking.garage.presenter.login.LoginActivity
+import com.ss.delivery.booking.garage.presenter.splash.SplashActivity
 import com.ss.delivery.booking.garage.utils.Constants
 import com.ss.delivery.booking.garage.utils.SharedPreferences
+import com.ss.delivery.booking.garage.utils.Utils
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -53,6 +55,32 @@ class SettingsActivity : AppCompatActivity() {
         binding.llLogout.setOnClickListener {
          showAlert()
         }
+
+        if (Utils.getLocale(this) == Constants.ENGLISH)
+            binding.rbEnglish.isChecked = true
+        else
+            binding.rbUrdu.isChecked = true
+
+
+        binding.rgLang.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+
+                 R.id.rbEnglish -> {
+                     Utils.setLocale(this, Constants.ENGLISH)
+                     startApp()
+                }
+
+                else ->{
+                    Utils.setLocale(this, Constants.URDU)
+                    startApp()
+                }
+            }
+        }
+    }
+
+    private fun startApp() {
+        startActivity(Intent(this, SplashActivity::class.java))
+        finishAffinity()
     }
 
     private fun showAlert() {
@@ -68,8 +96,7 @@ class SettingsActivity : AppCompatActivity() {
 
         ivClose.visibility = View.VISIBLE
 
-        txtMessage.text =
-            "Are  you  sure  you  want  to  Logout?"
+        txtMessage.text = getString(R.string.logout_confirmation)
 
 
         ivClose.setOnClickListener {
@@ -81,7 +108,7 @@ class SettingsActivity : AppCompatActivity() {
             SharedPreferences.saveStringToPreferences(Constants.RiderName, "", this)
             SharedPreferences.saveStringToPreferences(Constants.DrivingLicense, "", this)
 
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, SplashActivity::class.java))
             finishAffinity()
         }
 

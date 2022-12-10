@@ -36,10 +36,12 @@ class HomeTimeAdapter(
 
         val childLayoutManager = GridLayoutManager(context, 3)
 
+        holder.itemView.tag = position
+
         holder.rvSlots.apply {
             layoutManager = childLayoutManager
             adapter =
-                arrayList[position].slots?.let { SlotChildAdapter(context, it, onClick, position) }
+                arrayList[position].slots?.let { SlotChildAdapter(context, it, onClick, holder.itemView) }
             setRecycledViewPool(viewPool)
         }
     }

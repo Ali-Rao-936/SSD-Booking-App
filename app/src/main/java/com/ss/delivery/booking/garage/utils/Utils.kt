@@ -1,5 +1,6 @@
 package com.ss.delivery.booking.garage.utils
 
+import android.content.Context
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
@@ -17,6 +18,23 @@ object Utils {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd-MM-yyyy")
         return dateFormat.format(calendar.time)
+    }
+
+    fun getLocale(context: Context): String {
+        return SharedPreferences.getStringValueFromPreference(
+            Constants.LOCALE_KEY,
+            Constants.ENGLISH,
+            context
+        )!!
+    }
+
+    fun setLocale(context: Context, locale: String) {
+        SharedPreferences
+            .saveStringToPreferences(
+                Constants.LOCALE_KEY,
+                locale,
+                context
+            )
     }
 
     fun showSnack(message: String, view: View) {
