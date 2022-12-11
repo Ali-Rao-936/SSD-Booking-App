@@ -59,4 +59,16 @@
     <string name="bike_register">Please enter Registered Bike Number</string>
     <string name="registerd">You are Successfully Registered.</string>
     <string name="logout">Logout</string>
+    <string name="terms_conditions">These terms and conditions will be binding between the SSD Garage and the Rider upon the booking of any work. \n
+1.   If you place an order for work via the Application you warrant that you are legally capable of entering into a Garage, you are at least having a valid UAE Driving License. \n
+2.   SSD Garage Timings are from 09:00am to 09:00pm. \n
+3.   Rider must reach before 10 minutes prior to given time. \n
+4.   If the Rider Bike get fine outside the Garage, then the Garage will not responsible for that Fine. \n
+5.   Garage will only responsible for mechanical work, any damage or breakage will payable by Rider side. \n
+6.   Bike running kilo meters should not exceed more than 1000 Km after every Oil change.</string>
+    <string name="settings">Settings</string>
+    <string name="please_accept">Please accept above terms and conditions</string>
+    <string name="introduction_to_app">Introduction to App</string>
+    <string name="accept">Accept</string>
+    <string name="i_agree_to_above_terms_and_conditions">I agree to above terms and conditions</string>
 </resources>

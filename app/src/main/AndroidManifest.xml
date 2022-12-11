@@ -25,6 +25,20 @@
         android:theme="@style/Theme.SSDeliveryBookingApp"
         tools:targetApi="31">
         <activity
+            android:name=".presenter.settings.IntroActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".presenter.settings.SupportActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".presenter.home.BookingConfirmationActivity"
             android:exported="false">
             <meta-data

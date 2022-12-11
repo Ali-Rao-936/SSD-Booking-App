@@ -15,6 +15,7 @@ import com.ss.delivery.booking.garage.R
 import com.ss.delivery.booking.garage.data.model.Rider
 import com.ss.delivery.booking.garage.databinding.ActivityLoginBinding
 import com.ss.delivery.booking.garage.presenter.home.SelectDateActivity
+import com.ss.delivery.booking.garage.presenter.splash.SplashActivity
 import com.ss.delivery.booking.garage.utils.Constants
 import com.ss.delivery.booking.garage.utils.SharedPreferences
 import com.ss.delivery.booking.garage.utils.Utils
@@ -29,8 +30,28 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
+        binding.txtLanguageName.paint?.isUnderlineText = true
+
+        if (Utils.getLocale(this) == Constants.URDU){
+            binding.txtLanguageName.text = "Eng"
+        }else
+            binding.txtLanguageName.text = "URDU"
+
         myRef = Firebase.database.getReference(Constants.RiderTable)
         getRecord()
+
+
+        binding.txtLanguageName.setOnClickListener {
+            if ( binding.txtLanguageName.text == "Eng"){
+                Utils.setLocale(this, Constants.ENGLISH)
+                startActivity(Intent(this, SplashActivity::class.java))
+                finishAffinity()
+            }else{
+                Utils.setLocale(this, Constants.URDU)
+                startActivity(Intent(this, SplashActivity::class.java))
+                finishAffinity()
+            }
+        }
 
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, SelectDateActivity::class.java))
@@ -135,4 +156,6 @@ class LoginActivity : AppCompatActivity() {
 
             })
     }
+
+
 }

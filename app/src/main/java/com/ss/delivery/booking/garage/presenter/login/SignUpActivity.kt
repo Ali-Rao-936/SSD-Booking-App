@@ -1,17 +1,26 @@
 package com.ss.delivery.booking.garage.presenter.login
 
 import android.Manifest
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.method.ScrollingMovementMethod
 import android.util.Base64
 import android.util.Log
+import android.view.Window
+import android.widget.CheckBox
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
@@ -31,6 +40,7 @@ import com.ss.delivery.booking.garage.utils.SharedPreferences
 import com.ss.delivery.booking.garage.utils.Utils.showSnack
 import java.io.ByteArrayOutputStream
 
+
 class SignUpActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySignUpBinding
@@ -44,6 +54,8 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+
+        showInfoPopup()
 
         binding.ivBackSignUp.setOnClickListener {
             onBackPressed()
@@ -84,7 +96,7 @@ class SignUpActivity : AppCompatActivity() {
                         binding.etMobileNo.text.trim().toString(),
                         binding.etPassword.text.trim().toString()
                     )
-               //     ridersList.add(Rider("Ali", "Khalid","ali11","121212","12345","0586598884","12345678"))
+                    //     ridersList.add(Rider("Ali", "Khalid","ali11","121212","12345","0586598884","12345678"))
                     ridersList.add(rider)
                     myRef.setValue(ridersList)
                         .addOnCompleteListener {
@@ -97,8 +109,7 @@ class SignUpActivity : AppCompatActivity() {
                                     )
                                 )
                                 finishAffinity()
-                            }
-                            else
+                            } else
                                 showSnack(
                                     getString(R.string.something_went_wrong),
                                     binding.root
@@ -148,8 +159,15 @@ class SignUpActivity : AppCompatActivity() {
                         val rider =
                             (snapshot.value as ArrayList<*>).filterIsInstance<HashMap<String, *>>()
                                 .map {
-                                    Rider(it["full_Name"].toString(), it["father_Name"].toString(),it["rider_Id"].toString(),it["plate_Number"].toString(),
-                                        it["license_Number"].toString(), it["mobile_Number"].toString(),it["password"].toString())
+                                    Rider(
+                                        it["full_Name"].toString(),
+                                        it["father_Name"].toString(),
+                                        it["rider_Id"].toString(),
+                                        it["plate_Number"].toString(),
+                                        it["license_Number"].toString(),
+                                        it["mobile_Number"].toString(),
+                                        it["password"].toString()
+                                    )
                                 }
                         ridersList.addAll(rider)
 
@@ -187,12 +205,12 @@ class SignUpActivity : AppCompatActivity() {
                                 .map {
                                     BikeModel(
                                         it["Bike Number"] as Long,
-                                        it["Bike Source"] as String,
-                                        it["Color"] as String,
-                                        it["Model Year"] as Long,
-                                        it["Vehicle Chassis"] as String,
-                                        it["Vehicle Engine"] as String,
-                                        it["Vehicle Model"] as String
+                                        it["Bike Source"] as String?,
+                                        it["Color"] as String?,
+                                        it["Model Year"] as Long?,
+                                        it["Vehicle Chassis"] as String?,
+                                        it["Vehicle Engine"] as String?,
+                                        it["Vehicle Model"] as String?
                                     )
                                 }
 
@@ -273,5 +291,29 @@ class SignUpActivity : AppCompatActivity() {
             Intent.createChooser(intent, "Select File"),
             SELECT_FILE
         )
+    }
+
+    private fun showInfoPopup() {
+        val dialog = Dialog(this, android.R.style.ThemeOverlay)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.terms_conditions_dialog)
+        dialog.setCancelable(false)
+
+        //  initializing dialog screen
+        val textView: TextView = dialog.findViewById(R.id.txtTermsDialog)
+        val cb: CheckBox = dialog.findViewById(R.id.cbTC)
+        val btnOk: AppCompatButton = dialog.findViewById(R.id.btnAccept)
+
+        textView.movementMethod = ScrollingMovementMethod()
+
+        btnOk.setOnClickListener {
+            if (cb.isChecked) {
+                dialog.dismiss()
+            } else
+                Toast.makeText(this, getString(R.string.please_accept), Toast.LENGTH_LONG).show()
+        }
+
+        dialog.show()
     }
 }

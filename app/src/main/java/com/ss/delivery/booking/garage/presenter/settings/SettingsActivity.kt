@@ -2,23 +2,27 @@ package com.ss.delivery.booking.garage.presenter.settings
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.DataBindingUtil
 import com.ss.delivery.booking.garage.R
 import com.ss.delivery.booking.garage.databinding.ActivitySettingsBinding
-import com.ss.delivery.booking.garage.presenter.login.LoginActivity
 import com.ss.delivery.booking.garage.presenter.splash.SplashActivity
 import com.ss.delivery.booking.garage.utils.Constants
 import com.ss.delivery.booking.garage.utils.SharedPreferences
 import com.ss.delivery.booking.garage.utils.Utils
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -27,7 +31,6 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
-
 
         // go back
         binding.ivBackSettings.setOnClickListener {
@@ -44,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         // support
         binding.llSupport.setOnClickListener {
-
+            startActivity(Intent(this, SupportActivity::class.java))
         }
         // terms and conditions
         binding.llTAndC.setOnClickListener {

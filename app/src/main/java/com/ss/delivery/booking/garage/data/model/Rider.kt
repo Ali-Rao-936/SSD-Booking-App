@@ -43,10 +43,10 @@ data class TimeData(
 
 data class BikeModel(
     val Bike_Number: Long,
-    val Bike_Source: String,
-    val Bike_Color: String,
-    val Bike_Model: Long,
-    val Vehicle_Chassis: String,
-    val Vehicle_Engine: String,
-    val Vehicle_Model: String
+    val Bike_Source: String?,
+    val Bike_Color: String?,
+    val Bike_Model: Long?,
+    val Vehicle_Chassis: String?,
+    val Vehicle_Engine: String?,
+    val Vehicle_Model: String?
 )

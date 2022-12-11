@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".presenter.settings.SupportActivity">
+
+        <RelativeLayout
+            android:id="@+id/rlTopSupport"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <ImageView
+                android:id="@+id/ivBackSupport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/this_is_an_image"
+                android:padding="10dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/font_bold"
+                android:text="@string/support"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/ivCoordinator"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/this_is_an_image"
+                android:src="@drawable/man" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/ivCoordinator"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/font_medium"
+                    android:gravity="center_vertical"
+                    android:text="Senior Garage Coordinator"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:fontFamily="@font/font_semibold"
+                    android:text="Nadeem Nawab"
+                    android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:fontFamily="@font/font_regular"
+                        android:text="+971542043616"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/ic_baseline_call_24" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/whatsapp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/ivController"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/this_is_an_image"
+                android:src="@drawable/man" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/ivController"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/font_medium"
+                    android:gravity="center_vertical"
+                    android:text="Garage Operational controller"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:fontFamily="@font/font_semibold"
+                    android:text="Umair Abdullah "
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:fontFamily="@font/font_regular"
+                        android:text="+971504770024 "
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/ic_baseline_call_24" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/whatsapp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/ivAssistant"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/this_is_an_image"
+                android:src="@drawable/man" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/ivAssistant"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/font_medium"
+                    android:gravity="center_vertical"
+                    android:text="Assistant Inventory Manager"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:fontFamily="@font/font_semibold"
+                    android:text="Yasir Iqbal"
+                    android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:fontFamily="@font/font_regular"
+                        android:text="+971549955102"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/ic_baseline_call_24" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/whatsapp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/ivManager"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/this_is_an_image"
+                android:src="@drawable/man" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/ivManager"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:fontFamily="@font/font_medium"
+                    android:gravity="center_vertical"
+                    android:text=" Inventory Manager"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:fontFamily="@font/font_semibold"
+                    android:text="Rao Waseem Azmat"
+                    android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:fontFamily="@font/font_regular"
+                        android:text="+971529777073"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/ic_baseline_call_24" />
+
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/this_is_an_image"
+                        android:src="@drawable/whatsapp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>
