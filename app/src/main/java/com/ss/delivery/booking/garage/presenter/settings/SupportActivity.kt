@@ -42,20 +42,16 @@ class SupportActivity : AppCompatActivity() {
 
         // whatsApp
         binding.ivCallWhatsApp1.setOnClickListener {
-            //   openWhatsApp("+971542043616", "hi")
-            sendMessage()
+            openWhatsappContact("+971542043616")
         }
         binding.ivCallWhatsApp2.setOnClickListener {
-            //   openWhatsApp("+971542043616", "hi")
-            sendMessage()
+            openWhatsappContact("+971504770024")
         }
         binding.ivCallWhatsApp3.setOnClickListener {
-            //   openWhatsApp("+971542043616", "hi")
-            sendMessage()
+            openWhatsappContact("+971549955102")
         }
         binding.ivCallWhatsApp4.setOnClickListener {
-            //   openWhatsApp("+971542043616", "hi")
-            sendMessage()
+            openWhatsappContact("+971529777073")
         }
 
     }
@@ -84,5 +80,14 @@ class SupportActivity : AppCompatActivity() {
         sendIntent.type = "text/plain"
         sendIntent.setPackage("com.whatsapp")
         startActivity(sendIntent)
+
+
+    }
+
+    private fun openWhatsappContact(number: String) {
+        val uri = Uri.parse("smsto:$number")
+        val i = Intent(Intent.ACTION_SENDTO, uri)
+        i.setPackage("com.whatsapp")
+        startActivity(Intent.createChooser(i, ""))
     }
 }

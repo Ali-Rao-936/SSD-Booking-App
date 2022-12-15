@@ -125,14 +125,14 @@ class EngineWorkActivity : AppCompatActivity() {
         binding.btnBook.setOnClickListener {
             //   timeList[timesPosition].slots?.get(slotsPosition)?.status = true
             Log.d("QOO", " status   $timesPosition   $slotsPosition")
-//            val date =
-//                SharedPreferences.getStringValueFromPreference(Constants.BookingDate, "no", this)
-//            if (date == Utils.getDateToday()) {
-//                Utils.showSnack(
-//                    "You already booked for today. You can only book one appointment in a day",
-//                    binding.root
-//                )
-//            } else {
+            val date =
+                SharedPreferences.getStringValueFromPreference(Constants.BookingDate, "no", this)
+            if (date == Utils.getDateToday()) {
+                Utils.showSnack(
+                    "You already booked for today. You can only book one appointment in a day",
+                    binding.root
+                )
+            } else {
                 myRef.child("$timesPosition").child("slots").child("$slotsPosition")
                     .child("status").setValue(true).addOnCompleteListener {
                         if (it.isSuccessful) {
@@ -209,7 +209,7 @@ class EngineWorkActivity : AppCompatActivity() {
                     }
             }
 
-     //   }
+        }
     }
 
 
