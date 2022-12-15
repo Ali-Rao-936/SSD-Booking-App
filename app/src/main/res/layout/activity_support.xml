@@ -89,6 +89,7 @@
                         android:textColor="@color/black" />
 
                     <ImageView
+                        android:id="@+id/ivCall1"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -96,6 +97,7 @@
                         android:src="@drawable/ic_baseline_call_24" />
 
                     <ImageView
+                        android:id="@+id/ivCallWhatsApp1"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -155,10 +157,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-5dp"
                         android:fontFamily="@font/font_regular"
-                        android:text="+971504770024 "
+                        android:text="+971504770024"
                         android:textColor="@color/black" />
 
                     <ImageView
+                        android:id="@+id/ivCall12"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -166,6 +169,7 @@
                         android:src="@drawable/ic_baseline_call_24" />
 
                     <ImageView
+                        android:id="@+id/ivCallWhatsApp2"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -228,6 +232,7 @@
                         android:textColor="@color/black" />
 
                     <ImageView
+                        android:id="@+id/ivCall3"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -235,6 +240,7 @@
                         android:src="@drawable/ic_baseline_call_24" />
 
                     <ImageView
+                        android:id="@+id/ivCallWhatsApp3"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -297,6 +303,7 @@
                         android:textColor="@color/black" />
 
                     <ImageView
+                        android:id="@+id/ivCall4"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -304,6 +311,7 @@
                         android:src="@drawable/ic_baseline_call_24" />
 
                     <ImageView
+                        android:id="@+id/ivCallWhatsApp4"
                         android:layout_marginStart="15dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"

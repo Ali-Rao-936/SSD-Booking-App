@@ -71,8 +71,10 @@ class LoginActivity : AppCompatActivity() {
                 val license : String = binding.etLicenseNo.text.trim().toString()
                 val pwd : String = binding.etPassword.text.trim().toString()
 
-                if (ridersList.isEmpty())
+                if (ridersList.isEmpty()) {
+                    Log.d("QOO", "  no riders records found")
                     Utils.showSnack(getString(R.string.no_record), binding.root)
+                }
                 else{
                     for (item in ridersList){
                         if (item.License_Number == license && item.Password == pwd){
@@ -128,7 +130,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun getRecord(){
+    private fun getRecord(){
         Firebase.database.getReference(Constants.RiderTable)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
