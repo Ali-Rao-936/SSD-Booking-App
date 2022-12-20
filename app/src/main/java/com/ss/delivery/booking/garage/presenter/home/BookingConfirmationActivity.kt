@@ -35,7 +35,8 @@ class BookingConfirmationActivity : AppCompatActivity() {
         type = intent.extras!!.getString("type")!!
         date = intent.extras!!.getString("date")!!
 
-        binding.txtDate.text = Utils.getDateToday()
+      //  binding.txtDate.text = Utils.getDateToday()
+        binding.txtDate.text = Utils.getCurrentTimeAndDate()
         lifecycleScope.launch {
             delay(4000)
             binding.txtBookingId.text =

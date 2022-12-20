@@ -53,10 +53,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this, SelectDateActivity::class.java))
-        }
-
         binding.txtSignUp.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }

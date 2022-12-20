@@ -27,7 +27,8 @@ data class RiderLog(
     val Message: String,
     val Reason: String,
     val Bill: String,
-    val KM: String
+    val KM: String,
+    val Booking_Time: String
 )
 
 data class TimeSlot(

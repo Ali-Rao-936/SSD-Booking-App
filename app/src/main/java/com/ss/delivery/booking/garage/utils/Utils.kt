@@ -4,15 +4,26 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek
 import java.util.*
-import kotlin.collections.ArrayList
 
 object Utils {
 
-    val monthList =  arrayListOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
-     var lastMainSelectedPosition = -1
-     var lastSelectedPosition = -1
+    val monthList = arrayListOf(
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    )
+    var lastMainSelectedPosition = -1
+    var lastSelectedPosition = -1
 
     fun getDateToday(): String {
         val calendar = Calendar.getInstance()
@@ -43,7 +54,7 @@ object Utils {
 
     fun getCurrentDay(): Int {
         val calendar = Calendar.getInstance()
-        return calendar.get(Calendar.DAY_OF_MONTH   )
+        return calendar.get(Calendar.DAY_OF_MONTH)
     }
 
     fun getCurrentMonth(): Int {
@@ -63,13 +74,18 @@ object Utils {
 
     fun getMonthDaysCount(): Int {
         val calendar = Calendar.getInstance()
-       return calendar.getActualMaximum(Calendar.DATE)
+        return calendar.getActualMaximum(Calendar.DATE)
 
     }
 
-    fun getCurrentDayOfWeek(date : Int): Int {
+    fun getCurrentDayOfWeek(date: Int): Int {
         val calendar = Calendar.getInstance()
         calendar.set(getCurrentYear(), getCurrentMonth(), date)
         return calendar.get(Calendar.DAY_OF_WEEK)
+    }
+
+    fun getCurrentTimeAndDate(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy,KK:mm aaa")
+        return sdf.format(Date())
     }
 }
