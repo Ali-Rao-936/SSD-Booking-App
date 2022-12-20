@@ -23,6 +23,7 @@ import com.ss.delivery.booking.garage.presenter.adapter.OnCheckBoxClick
 import com.ss.delivery.booking.garage.utils.Constants
 import com.ss.delivery.booking.garage.utils.SharedPreferences
 import com.ss.delivery.booking.garage.utils.Utils
+import com.ss.delivery.booking.garage.utils.Utils.getCurrentDay
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentMonth
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentMonthName
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentYear
@@ -147,7 +148,7 @@ class HomeActivity : AppCompatActivity() {
                                     Constants.DrivingLicense,
                                     "", this
                                 )
-                            }-${getCurrentMonth() + 1}-${getCurrentYear()}"
+                            }-OS-${getCurrentDay()}-${getCurrentYear()}"
                             binding.rlButton.visibility = View.GONE
                             Log.d(
                                 "QOO",
@@ -181,7 +182,7 @@ class HomeActivity : AppCompatActivity() {
                                         timeList[timesPosition].value!!,
                                         timeList[timesPosition].slots?.get(slotsPosition)?.name
                                             ?: "",
-                                        "booked appointment", "reason", "bil", "KM"
+                                        "booked appointment", "reason", "bil", "KM", Utils.getCurrentTimeAndDate()
                                     )
                                 )
                             Utils.lastMainSelectedPosition = -1

@@ -126,7 +126,7 @@ class EngineWorkActivity : AppCompatActivity() {
             //   timeList[timesPosition].slots?.get(slotsPosition)?.status = true
             Log.d("QOO", " status   $timesPosition   $slotsPosition")
             val date =
-                SharedPreferences.getStringValueFromPreference(Constants.BookingDate, "no", this)
+                SharedPreferences.getStringValueFromPreference(Constants.BookingEngineDate, "no", this)
             if (date == Utils.getDateToday()) {
                 Utils.showSnack(
                     "You already booked for today. You can only book one appointment in a day",
@@ -141,7 +141,7 @@ class EngineWorkActivity : AppCompatActivity() {
                                     Constants.DrivingLicense,
                                     "", this
                                 )
-                            }-${Utils.getCurrentMonth() + 1}-${Utils.getCurrentYear()}"
+                            }-EW-${Utils.getCurrentDay()}-${Utils.getCurrentYear()}"
                             binding.rlButton.visibility = View.GONE
                             Log.d(
                                 "QOO",
@@ -175,16 +175,18 @@ class EngineWorkActivity : AppCompatActivity() {
                                         timeList[timesPosition].value!!,
                                         timeList[timesPosition].slots?.get(slotsPosition)?.name
                                             ?: "",
-                                        "booked appointment", "reason", "bil", "KM"
+                                        "booked appointment", "reason", "bil", "KM", Utils.getCurrentTimeAndDate()
                                     )
                                 )
                             Utils.lastMainSelectedPosition = -1
                             Utils.lastSelectedPosition = -1
+                            // save booking
                             SharedPreferences.saveStringToPreferences(
-                                Constants.BookingDateEngine,
+                                Constants.BookingEngineDate,
                                 Utils.getDateToday(),
                                 this
                             )
+                            // save booking ID
                             SharedPreferences.saveStringToPreferences(
                                 Constants.BookingID,
                                 bookingId,
