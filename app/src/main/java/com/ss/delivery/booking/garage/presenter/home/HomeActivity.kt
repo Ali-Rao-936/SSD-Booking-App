@@ -182,7 +182,8 @@ class HomeActivity : AppCompatActivity() {
                                         timeList[timesPosition].value!!,
                                         timeList[timesPosition].slots?.get(slotsPosition)?.name
                                             ?: "",
-                                        "booked appointment", "reason", "bil", "KM", Utils.getCurrentTimeAndDate()
+                                        "booked appointment", "reason", "bil", "KM", Utils.getCurrentTimeAndDate(),
+                                        "invoice","amount",bookingId
                                     )
                                 )
                             Utils.lastMainSelectedPosition = -1
