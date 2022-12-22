@@ -3,6 +3,7 @@ package com.ss.delivery.booking.garage.utils
 object Constants {
 
     const val RiderTable = "RidersInfo"
+    const val VersionTable = "AppVersionTable"
     const val BikesTable = "BikesRecord"
     const val BookingLogTable = "BookingLogs"
     const val RiderName = "rider_name"

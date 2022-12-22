@@ -57,6 +57,7 @@
     <string name="please_enter_phone">Please enter Mobile number </string>
     <string name="please_enter_password">Please enter Password</string>
     <string name="bike_register">Please enter Registered Bike Number</string>
+    <string name="license_matched">This Driving license is already registered</string>
     <string name="registerd">You are Successfully Registered.</string>
     <string name="logout">Logout</string>
     <string name="terms_conditions">These terms and conditions will be binding between the SSD Garage and the Rider upon the booking of any work. \n
@@ -71,4 +72,6 @@
     <string name="introduction_to_app">Introduction to App</string>
     <string name="accept">Accept</string>
     <string name="i_agree_to_above_terms_and_conditions">I agree to above terms and conditions</string>
+    <string name="app_new_version">App new version is available, please update it from playstore so you can allow to be use the App features.</string>
+    <string name="update">Update</string>
 </resources>

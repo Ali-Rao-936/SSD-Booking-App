@@ -23,6 +23,7 @@ import com.ss.delivery.booking.garage.data.model.TimeModel
 import com.ss.delivery.booking.garage.data.model.TimeSlot
 import com.ss.delivery.booking.garage.databinding.ActivitySelectDateBinding
 import com.ss.delivery.booking.garage.presenter.settings.SettingsActivity
+import com.ss.delivery.booking.garage.presenter.splash.SplashActivity.Companion.isUpdateAvailable
 import com.ss.delivery.booking.garage.utils.Constants
 import com.ss.delivery.booking.garage.utils.Utils
 import com.ss.delivery.booking.garage.utils.Utils.getCurrentDay
@@ -33,79 +34,86 @@ import com.ss.delivery.booking.garage.utils.Utils.getCurrentYear
 import com.ss.delivery.booking.garage.utils.Utils.getMonthDaysCount
 import com.ss.delivery.booking.garage.utils.Utils.monthList
 import com.ss.delivery.booking.garage.utils.Utils.showSnack
+import com.ss.delivery.booking.garage.utils.Utils.showUpdatePopup
 import java.util.*
 
 class SelectDateActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySelectDateBinding
-    var timeList = ArrayList<TimeModel>()
+    private var timeList = ArrayList<TimeModel>()
     lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_select_date)
 
-        Utils.lastSelectedPosition = -1
-        Utils.lastMainSelectedPosition = -1
 
-        myRef = Firebase.database.getReference("${getCurrentMonthName()}-${getCurrentYear()}")
+        if (isUpdateAvailable){
+            showUpdatePopup(this@SelectDateActivity)
+        }else {
 
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (!snapshot.exists()) // check if there is no data setup database
-                    setUpDataBaseForMonth()
+            Utils.lastSelectedPosition = -1
+            Utils.lastMainSelectedPosition = -1
 
+            myRef = Firebase.database.getReference("${getCurrentMonthName()}-${getCurrentYear()}")
+
+            myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists()) // check if there is no data setup database
+                        setUpDataBaseForMonth()
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    showSnack(getString(R.string.no_record), binding.root)
+                    Log.d("QOO", " error for data base of times  :  ${error.message}")
+                }
+
+            })
+
+            // go to settings
+            binding.ivSettings.setOnClickListener {
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                showSnack(getString(R.string.no_record), binding.root)
-                Log.d("QOO", " error for data base of times  :  ${error.message}")
+            // change engine oil
+            binding.llOilChange.setOnClickListener {
+                showCalendar("Engine Oil")
             }
 
-        })
-
-        // go to settings
-        binding.ivSettings.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-
-        // change engine oil
-        binding.llOilChange.setOnClickListener {
-            showCalendar("Engine Oil")
-        }
-
-        // other services
-        binding.llOtherServices.setOnClickListener {
-            showCalendar("Other Services")
-        }
-        // outdoor
-        binding.llOutdoorServices.setOnClickListener {
-            showSnack("Coming Soon", binding.root)
-        }
-        // engine work
-        binding.llEngineWork.setOnClickListener {
-
-            val calendar = Calendar.getInstance()
-            calendar.set(getCurrentYear(), getCurrentMonth(), getCurrentDay())
-            val min = calendar.timeInMillis
-            calendar.set(getCurrentYear(), getCurrentMonth(), getMonthDaysCount())
-            val max = calendar.timeInMillis
-            val dpd = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
-
-                Log.d("QOO", "" + dayOfMonth + " " + monthList[monthOfYear] + ", " + year)
-                Log.d("QOO", " current day :  ${getCurrentDayOfWeek(dayOfMonth)}")
-                if (getCurrentDayOfWeek(dayOfMonth) == 6 || getCurrentDayOfWeek(dayOfMonth) == 7)
-                    goToEngineWork("" + dayOfMonth + "-" + monthList[monthOfYear] + "-" + year)
-                else
-                    showInfoPopup("")
-
-            }, getCurrentYear(), getCurrentMonth(), getCurrentDay()).apply {
-                datePicker.minDate = min
-                datePicker.maxDate = max
+            // other services
+            binding.llOtherServices.setOnClickListener {
+                showCalendar("Other Services")
             }
-            dpd.show()
-        }
+            // outdoor
+            binding.llOutdoorServices.setOnClickListener {
+                showSnack("Coming Soon", binding.root)
+            }
+            // engine work
+            binding.llEngineWork.setOnClickListener {
 
+                val calendar = Calendar.getInstance()
+                calendar.set(getCurrentYear(), getCurrentMonth(), getCurrentDay())
+                val min = calendar.timeInMillis
+                calendar.set(getCurrentYear(), getCurrentMonth(), getMonthDaysCount())
+                val max = calendar.timeInMillis
+                val dpd = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
+
+                    Log.d("QOO", "" + dayOfMonth + " " + monthList[monthOfYear] + ", " + year)
+                    Log.d("QOO", " current day :  ${getCurrentDayOfWeek(dayOfMonth)}")
+                    if (getCurrentDayOfWeek(dayOfMonth) == 6 || getCurrentDayOfWeek(dayOfMonth) == 7)
+                        goToEngineWork("" + dayOfMonth + "-" + monthList[monthOfYear] + "-" + year)
+                    else
+                        showInfoPopup("")
+
+                }, getCurrentYear(), getCurrentMonth(), getCurrentDay()).apply {
+                    datePicker.minDate = min
+                    datePicker.maxDate = max
+                }
+                dpd.show()
+            }
+
+        }
     }
 
     private fun goToEngineWork(date: String) {
@@ -130,7 +138,6 @@ class SelectDateActivity : AppCompatActivity() {
 
         if (s.isEmpty())
             txtMessage.text = getString(R.string.engine_work_message)
-
         else
             txtMessage.text = getString(R.string.oil_work_message)
 
@@ -141,7 +148,7 @@ class SelectDateActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showCalendar(type : String) {
+    private fun showCalendar(type: String) {
         val calendar = Calendar.getInstance()
         calendar.set(getCurrentYear(), getCurrentMonth(), getCurrentDay())
         val min = calendar.timeInMillis
@@ -165,7 +172,10 @@ class SelectDateActivity : AppCompatActivity() {
 
     private fun goToHome(date: String, type: String) {
         Log.d("QOO", " date :  $date")
-        startActivity(Intent(this, HomeActivity::class.java).putExtra(Constants.SelectDate, date).putExtra("type", type))
+        startActivity(
+            Intent(this, HomeActivity::class.java).putExtra(Constants.SelectDate, date)
+                .putExtra("type", type)
+        )
     }
 
     private fun setUpDataBaseForMonth() {

@@ -133,6 +133,7 @@ class EngineWorkActivity : AppCompatActivity() {
                     binding.root
                 )
             } else {
+                binding.rlAnimation.visibility = View.VISIBLE
                 myRef.child("$timesPosition").child("slots").child("$slotsPosition")
                     .child("status").setValue(true).addOnCompleteListener {
                         if (it.isSuccessful) {
@@ -193,6 +194,7 @@ class EngineWorkActivity : AppCompatActivity() {
                                 bookingId,
                                 this
                             )
+                            binding.rlAnimation.visibility = View.GONE
                             startActivity(
                                 Intent(this, BookingConfirmationActivity::class.java)
                                     .putExtra("time", timeList[timesPosition].value)
@@ -206,6 +208,7 @@ class EngineWorkActivity : AppCompatActivity() {
 
                             finish()
                         } else {
+                            binding.rlAnimation.visibility = View.GONE
                             Log.d("QOO", "${it.exception?.message}")
                             Utils.showSnack(getString(R.string.something_went_wrong), binding.root)
                         }

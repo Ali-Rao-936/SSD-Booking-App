@@ -8,7 +8,7 @@ data class Rider(
     val Plate_Number: String,
     val License_Number: String,
     val Mobile_Number: String,
-    val Password: String,
+    val Password: String
 )
 
 data class TimeModel(

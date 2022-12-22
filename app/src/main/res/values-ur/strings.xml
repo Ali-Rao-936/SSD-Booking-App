@@ -73,4 +73,7 @@
     <string name="introduction_to_app">ایپ کا تعارف</string>
     <string name="accept">قبول کریں</string>
     <string name="i_agree_to_above_terms_and_conditions">میں مندرجہ بالا شرائط و ضوابط سے اتفاق کرتا ہوں</string>
+    <string name="app_new_version">ایپ کا نیا ورژن دستیاب ہے، براہ کرم اسے پلے اسٹور سے اپ ڈیٹ کریں تاکہ آپ ایپ کی خصوصیات کو استعمال کرنے کی اجازت دے سکیں۔</string>
+    <string name="update">اپ ڈیٹ کریں</string>
+    <string name="license_matched">یہ ڈرائیونگ لائسنس پہلے سے رجسٹرڈ ہے</string>
 </resources>

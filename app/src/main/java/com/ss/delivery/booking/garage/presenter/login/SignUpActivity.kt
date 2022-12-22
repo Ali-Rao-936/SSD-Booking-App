@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.widget.CheckBox
 import android.widget.TextView
@@ -84,41 +85,76 @@ class SignUpActivity : AppCompatActivity() {
                 showSnack(getString(R.string.please_enter_password), binding.root)
             else {
 
+                binding.rlAnimation.visibility = View.VISIBLE
                 val bike = findBike(binding.etPlateNo.text.trim().toString())
 
                 if (bike == "not found") {
-                    val rider = Rider(
-                        binding.etName.text.trim().toString(),
-                        binding.etFatherN.text.trim().toString(),
-                        binding.etRiderId.text.trim().toString(),
-                        binding.etPlateNo.text.trim().toString(),
-                        binding.etLicenseNo.text.trim().toString(),
-                        binding.etMobileNo.text.trim().toString(),
-                        binding.etPassword.text.trim().toString()
-                    )
-                    //     ridersList.add(Rider("Ali", "Khalid","ali11","121212","12345","0586598884","12345678"))
-                    ridersList.add(rider)
-                    myRef.setValue(ridersList)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                showSnack(getString(R.string.registerd), binding.root)
-                                startActivity(
-                                    Intent(
-                                        this,
-                                        SelectDateActivity::class.java
+                    if (checkLicense(binding.etLicenseNo.text.toString()) == "not found") {
+                        val rider = Rider(
+                            binding.etName.text.trim().toString(),
+                            binding.etFatherN.text.trim().toString(),
+                            binding.etRiderId.text.trim().toString(),
+                            binding.etPlateNo.text.trim().toString(),
+                            binding.etLicenseNo.text.trim().toString(),
+                            binding.etMobileNo.text.trim().toString(),
+                            binding.etPassword.text.trim().toString()
+                        )
+                        //     ridersList.add(Rider("Ali", "Khalid","ali11","121212","12345","0586598884","12345678"))
+                        ridersList.add(rider)
+                        myRef.setValue(ridersList)
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    SharedPreferences.saveStringToPreferences(
+                                        Constants.RiderName,
+                                        rider.Full_Name,
+                                        this@SignUpActivity
                                     )
-                                )
-                                finishAffinity()
-                            } else
+                                    SharedPreferences.saveStringToPreferences(
+                                        Constants.PlateNumber,
+                                        rider.Plate_Number,
+                                        this@SignUpActivity
+                                    )
+                                    SharedPreferences.saveStringToPreferences(
+                                        Constants.PhoneNumber,
+                                        rider.Mobile_Number,
+                                        this@SignUpActivity
+                                    )
+                                    SharedPreferences.saveStringToPreferences(
+                                        Constants.DrivingLicense,
+                                        rider.License_Number,
+                                        this@SignUpActivity
+                                    )
+                                    SharedPreferences.saveBooleanToPreferences(
+                                        Constants.LoginStatus,
+                                        true,
+                                        this@SignUpActivity
+                                    )
+                                    showSnack(getString(R.string.registerd), binding.root)
+                                    binding.rlAnimation.visibility = View.GONE
+                                    startActivity(
+                                        Intent(
+                                            this,
+                                            SelectDateActivity::class.java
+                                        )
+                                    )
+                                    finishAffinity()
+                                } else
+                                    binding.rlAnimation.visibility = View.GONE
                                 showSnack(
                                     getString(R.string.something_went_wrong),
                                     binding.root
                                 )
-                        }
+                            }
 
-                    return@setOnClickListener
-                } else
+                        return@setOnClickListener
+                    }else {
+                        binding.rlAnimation.visibility = View.GONE
+                        showSnack(getString(R.string.license_matched), binding.root)
+                    }
+                }else {
+                    binding.rlAnimation.visibility = View.GONE
                     showSnack(bike, binding.root)
+                }
             }
         }
     }
@@ -135,7 +171,19 @@ class SignUpActivity : AppCompatActivity() {
 
             return getString(R.string.bike_register)
         }
+    }
 
+    private fun checkLicense(license : String) : String{
+        if (ridersList.isEmpty())
+            return "not found"
+        else{
+            for (rider in ridersList) {
+                if (rider.License_Number == license)
+                    return "found"
+            }
+
+            return "not found"
+        }
     }
 
     private fun isBikeAlreadyRegistered(plate: String): String {

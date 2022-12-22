@@ -30,67 +30,89 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-        binding.txtLanguageName.paint?.isUnderlineText = true
+        if (SplashActivity.isUpdateAvailable){
+            Utils.showUpdatePopup(this@LoginActivity)
+        }else {
+            binding.txtLanguageName.paint?.isUnderlineText = true
 
-        if (Utils.getLocale(this) == Constants.URDU){
-            binding.txtLanguageName.text = "Eng"
-        }else
-            binding.txtLanguageName.text = "URDU"
+            if (Utils.getLocale(this) == Constants.URDU) {
+                binding.txtLanguageName.text = "Eng"
+            } else
+                binding.txtLanguageName.text = "URDU"
 
-        myRef = Firebase.database.getReference(Constants.RiderTable)
-        getRecord()
+            myRef = Firebase.database.getReference(Constants.RiderTable)
+            getRecord()
 
 
-        binding.txtLanguageName.setOnClickListener {
-            if ( binding.txtLanguageName.text == "Eng"){
-                Utils.setLocale(this, Constants.ENGLISH)
-                startActivity(Intent(this, SplashActivity::class.java))
-                finishAffinity()
-            }else{
-                Utils.setLocale(this, Constants.URDU)
-                startActivity(Intent(this, SplashActivity::class.java))
-                finishAffinity()
+            binding.txtLanguageName.setOnClickListener {
+                if (binding.txtLanguageName.text == "Eng") {
+                    Utils.setLocale(this, Constants.ENGLISH)
+                    startActivity(Intent(this, SplashActivity::class.java))
+                    finishAffinity()
+                } else {
+                    Utils.setLocale(this, Constants.URDU)
+                    startActivity(Intent(this, SplashActivity::class.java))
+                    finishAffinity()
+                }
             }
-        }
 
-        binding.txtSignUp.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
-        }
+            binding.txtSignUp.setOnClickListener {
+                startActivity(Intent(this, SignUpActivity::class.java))
+            }
 
-        binding.btnLogin.setOnClickListener {
-            if (binding.etLicenseNo.text.trim().toString().isEmpty())
-                Utils.showSnack(getString(R.string.please_enter_license), binding.root)
-            else if (binding.etPassword.text.trim().toString().isEmpty())
-                Utils.showSnack(getString(R.string.please_enter_password), binding.root)
-            else {
+            binding.btnLogin.setOnClickListener {
+                if (binding.etLicenseNo.text.trim().toString().isEmpty())
+                    Utils.showSnack(getString(R.string.please_enter_license), binding.root)
+                else if (binding.etPassword.text.trim().toString().isEmpty())
+                    Utils.showSnack(getString(R.string.please_enter_password), binding.root)
+                else {
 
-                val license : String = binding.etLicenseNo.text.trim().toString()
-                val pwd : String = binding.etPassword.text.trim().toString()
+                    val license: String = binding.etLicenseNo.text.trim().toString()
+                    val pwd: String = binding.etPassword.text.trim().toString()
 
-                if (ridersList.isEmpty()) {
-                    Log.d("QOO", "  no riders records found")
-                    Utils.showSnack(getString(R.string.no_record), binding.root)
-                }
-                else{
-                    for (item in ridersList){
-                        if (item.License_Number == license && item.Password == pwd){
-                            SharedPreferences.saveStringToPreferences(Constants.RiderName, item.Full_Name, this@LoginActivity)
-                                   SharedPreferences.saveStringToPreferences(Constants.PlateNumber, item.Plate_Number, this@LoginActivity)
-                                   SharedPreferences.saveStringToPreferences(Constants.PhoneNumber, item.Mobile_Number, this@LoginActivity)
-                                   SharedPreferences.saveStringToPreferences(Constants.DrivingLicense,item.License_Number , this@LoginActivity)
-                                    SharedPreferences.saveBooleanToPreferences(Constants.LoginStatus, true, this@LoginActivity)
-                                    startActivity(
-                                        Intent(
-                                            this@LoginActivity,
-                                            SelectDateActivity::class.java
-                                        )
+                    if (ridersList.isEmpty()) {
+                        Log.d("QOO", "  no riders records found")
+                        Utils.showSnack(getString(R.string.no_record), binding.root)
+                    } else {
+                        for (item in ridersList) {
+                            if (item.License_Number == license && item.Password == pwd) {
+                                SharedPreferences.saveStringToPreferences(
+                                    Constants.RiderName,
+                                    item.Full_Name,
+                                    this@LoginActivity
+                                )
+                                SharedPreferences.saveStringToPreferences(
+                                    Constants.PlateNumber,
+                                    item.Plate_Number,
+                                    this@LoginActivity
+                                )
+                                SharedPreferences.saveStringToPreferences(
+                                    Constants.PhoneNumber,
+                                    item.Mobile_Number,
+                                    this@LoginActivity
+                                )
+                                SharedPreferences.saveStringToPreferences(
+                                    Constants.DrivingLicense,
+                                    item.License_Number,
+                                    this@LoginActivity
+                                )
+                                SharedPreferences.saveBooleanToPreferences(
+                                    Constants.LoginStatus,
+                                    true,
+                                    this@LoginActivity
+                                )
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        SelectDateActivity::class.java
                                     )
-                            finish()
-                            return@setOnClickListener
+                                )
+                                finish()
+                                return@setOnClickListener
+                            }
                         }
+                        Utils.showSnack(getString(R.string.no_record), binding.root)
                     }
-                    Utils.showSnack(getString(R.string.no_record), binding.root)
-                }
 
 //                myRef.child(binding.etLicenseNo.text.trim().toString())
 //                    .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -121,9 +143,9 @@ class LoginActivity : AppCompatActivity() {
 //                        }
 //
 //                    })
+                }
             }
         }
-
     }
 
     private fun getRecord(){

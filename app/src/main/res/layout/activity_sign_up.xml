@@ -8,9 +8,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".presenter.login.SignUpActivity">
 
         <RelativeLayout
@@ -65,13 +65,13 @@
                     android:layout_marginTop="50dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        app:civ_border_width="1dp"
-                        app:civ_border_color="@color/primaryColor"
                         android:id="@+id/ivProfile"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:contentDescription="@string/this_is_an_image"
-                        android:src="@drawable/man" />
+                        android:src="@drawable/man"
+                        app:civ_border_color="@color/primaryColor"
+                        app:civ_border_width="1dp" />
 
                     <ImageView
                         android:id="@+id/ivEditProfile"
@@ -188,6 +188,30 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/rl_Animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav_actionBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="motorcycle_helmet.json"
+                app:lottie_loop="true" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
