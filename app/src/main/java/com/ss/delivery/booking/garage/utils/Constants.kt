@@ -18,4 +18,5 @@ object Constants {
     const val ENGLISH = "en"
     const val URDU = "ur"
     const val LOCALE_KEY = "LOCALE_KEY"
+    const val MuBookings = "My_Bookings"
 }

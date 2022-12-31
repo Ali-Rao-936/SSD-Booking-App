@@ -41,6 +41,12 @@ class SettingsActivity : AppCompatActivity() {
         binding.llProfile.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
+
+        // my bookings
+        binding.llMyBookings.setOnClickListener {
+            startActivity(Intent(this, MyBookingsActivity::class.java))
+        }
+
         // intro
         binding.llIntro.setOnClickListener {
 

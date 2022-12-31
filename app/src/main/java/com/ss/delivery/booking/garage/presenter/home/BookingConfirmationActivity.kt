@@ -5,13 +5,17 @@ import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.ss.delivery.booking.garage.R
+import com.ss.delivery.booking.garage.data.model.MyBooking
 import com.ss.delivery.booking.garage.databinding.ActivityBookingConfirmationBinding
 import com.ss.delivery.booking.garage.utils.Constants
 import com.ss.delivery.booking.garage.utils.SharedPreferences
 import com.ss.delivery.booking.garage.utils.Utils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.reflect.Type
 
 
 class BookingConfirmationActivity : AppCompatActivity() {
@@ -21,6 +25,7 @@ class BookingConfirmationActivity : AppCompatActivity() {
     private var slot = ""
     var type = ""
     var date = ""
+    var bookingList = ArrayList<MyBooking>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +44,13 @@ class BookingConfirmationActivity : AppCompatActivity() {
         binding.txtDate.text = Utils.getCurrentTimeAndDate()
         lifecycleScope.launch {
             delay(4000)
-            binding.txtBookingId.text =
+            val bookingId : String =
                 SharedPreferences.getStringValueFromPreference(
                     Constants.BookingID,
                     "000",
                     this@BookingConfirmationActivity
-                )
+                ).toString()
+            binding.txtBookingId.text = bookingId
             val hello = getString(R.string.hello)
             val your = getString(R.string.your_booking_for)
             val isC = getString(R.string.is_confirmed_on)
@@ -68,6 +74,19 @@ class BookingConfirmationActivity : AppCompatActivity() {
             binding.txtBookingDetails.text = Html.fromHtml("$hello $name " +
                       "$your $mType $isC $mDate $at $mTime $forr $mSlot. $thank")
 
+            val booking = MyBooking(type,bookingId, Utils.getCurrentTimeAndDate(), binding.txtBookingDetails.text.trim().toString())
+            val gson = Gson()
+
+            val json : String =
+                SharedPreferences.getStringValueFromPreference(Constants.MuBookings, "", this@BookingConfirmationActivity)!!
+            if (json.isNotEmpty()) {
+                val type: Type = object : TypeToken<ArrayList<MyBooking?>?>() {}.type
+                bookingList = gson.fromJson<Any>(json, type) as ArrayList<MyBooking>
+            }
+            bookingList.add(booking)
+            val list : String = gson.toJson(bookingList)
+
+            SharedPreferences.saveStringToPreferences(Constants.MuBookings, list, this@BookingConfirmationActivity)
         }
 
     }

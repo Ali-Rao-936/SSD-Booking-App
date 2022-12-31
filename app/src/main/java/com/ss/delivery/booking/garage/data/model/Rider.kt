@@ -39,6 +39,13 @@ data class TimeSlot(
     var status: Boolean? = null
 )
 
+data class MyBooking(
+    val Type: String,
+    val ID: String,
+    var Time: String,
+    var Details: String
+)
+
 data class TimeData(
     val name: String,
     val value: TimeModel

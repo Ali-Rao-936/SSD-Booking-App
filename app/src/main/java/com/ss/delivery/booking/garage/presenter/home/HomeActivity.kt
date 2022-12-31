@@ -149,7 +149,7 @@ class HomeActivity : AppCompatActivity() {
                                     Constants.DrivingLicense,
                                     "", this
                                 )
-                            }-OS-${getCurrentDay()}-${getCurrentYear()}"
+                            }-OS-${getCurrentDay()}-${getCurrentMonth() + 1}-${getCurrentYear()}"
                             binding.rlButton.visibility = View.GONE
                             Log.d(
                                 "QOO",
